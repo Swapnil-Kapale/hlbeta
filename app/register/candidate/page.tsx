@@ -1263,6 +1263,7 @@ const Register = () => {
             <div className="flex gap-4">
               <Input
                 placeholder="Password"
+                type="password"
                 value={resumeInformation.security.password}
                 onChange={(e) =>
                   setResumeInformation({
@@ -1277,6 +1278,7 @@ const Register = () => {
               />
               <Input
                 placeholder="Confirm Password"
+                type="password"
                 value={resumeInformation.security.confirmPassword}
                 onChange={(e) =>
                   setResumeInformation({

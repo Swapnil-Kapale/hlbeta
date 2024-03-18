@@ -302,6 +302,7 @@ const RecruiterRegisterPage = () => {
             <div className="flex gap-4">
               <Input
                 placeholder="Password"
+                type="password"
                 value={recruiterInformation.security.password}
                 onChange={(e) =>
                   setRecruiterInformation({
@@ -317,6 +318,7 @@ const RecruiterRegisterPage = () => {
 
               <Input
                 placeholder="Confirm Password"
+                type="password"
                 value={recruiterInformation.security.confirmPassword}
                 onChange={(e) =>
                   setRecruiterInformation({
