@@ -1,5 +1,9 @@
 <div style="text-align:center;">
+<<<<<<< HEAD
     <img src="public/dark_logo.png" alt="Logo" height="100" width="100"> <h1>Hirelink</h1>
+=======
+    <img src="public/dark_logo.png" alt="Logo" height="100" width="100"><br/><img src="public/logo.png" alt="Logo" height="100" width="100"> <h1>Hirelink</h1>
+>>>>>>> 867d26b428380efed859135685b01b536a125ed8
 </div>
 
 Hire-Link is a comprehensive platform developed by Team Dracarys to streamline the hiring process for both recruiters and candidates. The platform consists of a Next.js website for recruiters and a Flutter mobile application for candidates. It aims to automate the traditional hiring process, providing a seamless experience for both parties.
