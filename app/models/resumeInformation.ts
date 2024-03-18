@@ -1,5 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 
+const userIdSchema = new Schema({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+},)
+
 const contactInformationSchema = new Schema({
     firstName: { type: String },
     lastName: { type: String },
@@ -55,12 +60,13 @@ const securitySchema = new mongoose.Schema({
     confirmPassword: { type: String }
 });
 
-const roleScheema = new mongoose.Schema({
+const roleSchema = new mongoose.Schema({
     data: { type: String}
 });
 
 
 const resumeInformationSchema = new Schema({
+    userId: userIdSchema,
     contactInformation: contactInformationSchema,
     summary: { type: String },
     education: [educationSchema],
@@ -71,7 +77,7 @@ const resumeInformationSchema = new Schema({
     achievements: [achievementSchema],
     additionalInformation: additionalInformationSchema,
     security : securitySchema,
-    role : roleScheema
+    role : roleSchema
 });
 
 const ResumeInformation = mongoose.models.ResumeInformation || mongoose.model('ResumeInformation', resumeInformationSchema);

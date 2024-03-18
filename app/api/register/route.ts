@@ -8,29 +8,23 @@ export async function POST(request: NextRequest) {
   console.log("Database");
   
 
-  const resumeInformation = await request.json();
-  console.log(resumeInformation);
-  
-
- 
-  
-  
-  
+  const body = await request.json();
+  console.log(body);
 
   await connectMongoDB();
   // Hash the password
   const salt = await bcryptjs.genSalt(10);
   const hashedPassword = await bcryptjs.hash(
-    resumeInformation.security.password,
+    body.security.password,
     salt
   );
 
   const name =
-  resumeInformation.contactInformation.firstName +
+  body.contactInformation.firstName +
     " " +
-    resumeInformation.contactInformation.lastName;
-  const email = resumeInformation.contactInformation.email;
-  const userrole = resumeInformation.role.data;
+    body.contactInformation.lastName;
+  const email = body.contactInformation.email;
+  const userrole = body.role.data;
   console.log("user Role",userrole);
   
 
@@ -48,11 +42,11 @@ export async function POST(request: NextRequest) {
   if (userrole === "candidate") {
     console.log("called");
     
-    const newResumeInformation = await ResumeInformation.create(resumeInformation);
-    console.log("new resume information :", newResumeInformation);
+    const newbody = await ResumeInformation.create(body);
+    console.log("new resume information :", newbody);
     
 
-    await newResumeInformation.save();
+    await newbody.save();
     return NextResponse.json({
         message: 'Success',
       });
