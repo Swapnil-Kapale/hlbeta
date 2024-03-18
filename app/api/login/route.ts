@@ -1,17 +1,18 @@
 // Import necessary modules
 import { NextRequest, NextResponse } from "next/server";
-import User from "../../models/user.ts";
+import User from "@/app/models/userSchema";
 var bcryptjs = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 import connectMongoDB from "@/libs/mongodb";
 
 // Connect to MongoDB
-connectMongoDB();
 
 export async function POST(request: NextRequest) {
     try {
+        await connectMongoDB();
         // Destructure email and password from the request JSON body
         const { email, password } = await request.json();
+        console.log(email, password);
         
         const user = await User.findOne({ email });
 
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
         }
         // Compare the password
         const validPassword = await bcryptjs.compare(password, user.password);
+        console.log(validPassword);
 
         if (!validPassword) {
             // If the password is invalid, return an error response
@@ -34,6 +36,8 @@ export async function POST(request: NextRequest) {
                 status: 401,
                 error: "Invalid password." });
         }
+
+        console.log("User logged in successfully.");
 
         // Create token data
         const tokenData = {
@@ -43,7 +47,9 @@ export async function POST(request: NextRequest) {
         };
 
         // Create a token with an expiration of 1 hour
-        const token = jwt.sign(tokenData, process.env.SECRET_KEY!, { expiresIn: '1h' });
+        const jwtSecret = "your_secret_key"; // Replace "your_secret_key" with your actual secret key
+        const token = jwt.sign(tokenData, jwtSecret, { expiresIn: '1h' });
+
         // Return success response with token
         const response =  NextResponse.json({
             status : 200,

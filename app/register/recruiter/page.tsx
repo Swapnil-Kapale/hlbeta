@@ -42,23 +42,23 @@ const RecruiterRegisterPage = () => {
   const [recruiterInformation, setRecruiterInformation] =
     React.useState<Recruiter>({
       contactInformation: {
-        firstName: "",
-        lastName: "",
-        phone: "",
-        email: "",
-        address: "",
+        firstName:"John",
+        lastName:"Doe",
+        phone:"123456789",
+        email:"john@g.com",
+        address:"Dhaka"
       },
       companyInformation: {
-        companyName: "",
-        commpanyAddress: "",
-        companyPhone: "",
-        companyEmail: "",
-        companyWebsite: "",
-        companyDescription: "",
+        companyName:"ABC",
+        commpanyAddress:"Dhaka",
+        companyPhone:"123456789",
+        companyEmail:"g@g.com",
+        companyWebsite:"www.abc.com",
+        companyDescription:"ABC is a company"
       },
       security: {
-        password: "",
-        confirmPassword: "",
+        password:"123456",
+        confirmPassword:"123456",
       },
       role: {
         data: "recruiter",

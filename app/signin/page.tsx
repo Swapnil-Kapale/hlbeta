@@ -24,28 +24,27 @@ function SignInPage({}: Props) {
 
   const handleSignIn = async () => { 
 
-    router.push("/dashboard/recruiter/");
     
-    // try{
-    //   const response:any = await axios.post('/api/signin',{email,password});
-    //   console.log(response);
-    //   if(response.status !== 200) {
-    //     setError("Error logging in. Please try again.");
-    //     return NextResponse.json({ error: "Please enter email and password" });
-    //   }
-    //   else {
-    //     if(response.data.role === "developer")
-    //       router.push("/student/");
-    //     else if(response.data.role === "recruiter")
-    //       router.push("/mentor/");
-    //     else
-    //     return NextResponse.json({ message: "Successfully logged in." });
-    //   } 
+    try{
+      const response:any = await axios.post('/api/login',{email,password});
+      console.log(response);
+      if(response.status !== 200) {
+        setError("Error logging in. Please try again.");
+        return NextResponse.json({ error: "Please enter email and password" });
+      }
+      else {
+        if(response.data.role === "candidate")
+          router.push("/dashboard/candidate/");
+        else if(response.data.role === "recruiter")
+          router.push("/dashboard/recruiter/");
+        else
+        return NextResponse.json({ message: "Successfully logged in." });
+      } 
 
-    // }catch(error){
-    //   console.error("Error logging in", error);
-    //   setError("Error logging in. Please try again.");
-    // }
+    }catch(error){
+      console.error("Error logging in", error);
+      setError("Error logging in. Please try again.");
+    }
   }
 
   
