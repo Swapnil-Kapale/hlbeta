@@ -58,13 +58,6 @@ const extractDataFromPDF = (relativePath) => {
     ...   date: string;
     ... }
     ... 
-    ... interface AdditionalInformation {
-    ...   languages: string[];
-    ...   volunteerExperience: string;
-    ...   publications: string;
-    ...   interests: string[];
-    ... }
-    ... 
     ... interface Reference {
     ...   name: string;
     ...   title: string;
@@ -104,7 +97,7 @@ const extractDataFromPDF = (relativePath) => {
 
       // Construct the prompt string
       const prompt =
-        "Please structure the following information into a JSON object adhering to a predefined schema. Populate the fields based on the provided details. If any information is unavailable, use null. In the 'skills' field, include only the names of relevant technologies. give me only object in json  {} dont include ```json ``` in result\n" +
+        "Please structure the following information into a JSON object adhering to a predefined schema. strictly follow given schema dont add any extra field. Populate the fields based on the provided details. If any information is unavailable, use null. In the 'skills' field, include only the names of relevant technologies. give me only object in json  {} dont include ```json ``` in result\n" +
         scheema +
         "\n" +
         extractedText;

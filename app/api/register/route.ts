@@ -60,7 +60,7 @@ interface Achievement {
 interface AdditionalInformation {
   languages: string[];
   volunteerExperience: string;
-  publications: string;
+  publications: string[];
   interests: string[];
 }
 

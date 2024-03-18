@@ -48,7 +48,7 @@ const achievementSchema = new Schema({
 const additionalInformationSchema = new Schema({
     languages: [{ type: String }],
     volunteerExperience: { type: String },
-    publications: { type: String },
+    publications: [{ type: String }],
     interests: [{ type: String }]
 });
 
