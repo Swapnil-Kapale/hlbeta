@@ -193,8 +193,8 @@ const Register = () => {
         },
       ],
       security: {
-        password: "",
-        confirmPassword: "",
+        password: "123",
+        confirmPassword: "123",
       },
       role: { data: 'candidate' },
     });
@@ -247,25 +247,24 @@ const Register = () => {
 
   const handleRegister = async () => {
     console.log(resumeInformation);
-    router.push("/register/success");
-    // try {
-    //   // Make a POST request to your API route
-    //   const response = await axios.post("/api/register", resumeInformation);
-    //   console.log("Response data is: ", response.data);
-    //   if (
-    //     response.data.message === "candidate Created." ||
-    //     response.data.message === "recruiter Created."
-    //   ) {
-    //     // Handle success, e.g., show a success message
-    //     console.log(response.data.message);
-    //     router.push("/register/success");
-    //   } else {
-    //     // Handle error, e.g., show an error message
-    //     console.error("Registration failed");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    
+    try {
+      // Make a POST request to your API route
+      const response = await axios.post("/api/register", resumeInformation);
+      if (
+        response.data.message == "candidate Created." ||
+        response.data.message == "recruiter Created."
+      ) {
+        // Handle success, e.g., show a success message
+        console.log(response.data.message);
+        router.push("/register/success");
+      } else {
+        // Handle error, e.g., show an error message
+        console.error("Registration failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

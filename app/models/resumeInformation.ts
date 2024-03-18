@@ -1,14 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
+import  User  from '@/app/models/userSchema';
 
-const userIdSchema = new Schema({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-},)
 
 const contactInformationSchema = new Schema({
     firstName: { type: String },
     lastName: { type: String },
-    email: { type: String, required: true, unique: false },
+    email: { type: String, required: true, unique: true },
     phone: { type: String },
     address: { type: String }
 });
@@ -55,18 +52,13 @@ const additionalInformationSchema = new Schema({
     interests: [{ type: String }]
 });
 
-const securitySchema = new mongoose.Schema({
-    password: { type: String },
-    confirmPassword: { type: String }
-});
-
-const roleSchema = new mongoose.Schema({
-    data: { type: String}
-});
 
 
 const resumeInformationSchema = new Schema({
-    userId: userIdSchema,
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     contactInformation: contactInformationSchema,
     summary: { type: String },
     education: [educationSchema],
@@ -76,8 +68,6 @@ const resumeInformationSchema = new Schema({
     projects: [projectSchema],
     achievements: [achievementSchema],
     additionalInformation: additionalInformationSchema,
-    security : securitySchema,
-    role : roleSchema
 });
 
 const ResumeInformation = mongoose.models.ResumeInformation || mongoose.model('ResumeInformation', resumeInformationSchema);

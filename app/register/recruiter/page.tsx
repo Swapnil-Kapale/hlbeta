@@ -27,11 +27,15 @@ interface Security {
   confirmPassword: string;
 }
 
+interface Role {
+  data: string;
+}
+
 interface Recruiter {
   contactInformation: ContactInformation;
   companyInformation: CompanyInformation;
   security: Security;
-  role: string;
+  role: Role;
 }
 
 const RecruiterRegisterPage = () => {
@@ -56,30 +60,33 @@ const RecruiterRegisterPage = () => {
         password: "",
         confirmPassword: "",
       },
-      role: "recruiter",
+      role: {
+        data: "recruiter",
+      },
     });
 
   const router = useRouter();
 
   const handleRegister = () => {
+    
     console.log(recruiterInformation);
-    router.push('/register/success') 
 
-    // fetch('http://localhost:3000/api/register', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(recruiterInformation)
-    // }).then(res => res.json())
-    // .then(data => {
-    //   if(data.success) {
-    //     router.push('/login')
-    //   }
-    //   else{
-    //     console.log(data.message)
-    //   }
-    // })
+    fetch('http://localhost:3000/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(recruiterInformation)
+    }).then(res => res.json())
+    .then(data => {
+      if(data.message === 'recruiter Created.') {
+        router.push('/register/success')
+      }
+      else{
+        console.log(data.message)
+      }
+    })
+
   };
 
   return (

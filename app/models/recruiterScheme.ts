@@ -16,19 +16,15 @@ const companyInformationSchema = new Schema({
   companyEmail: { type: String },
   companyWebsite: { type: String },
   companyDescription: { type: String },
-});
-
-const roleSchema = new mongoose.Schema({
-  data: { type: String },
-});
+});  
 
 const recruiterSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },
   contactInformation: contactInformationSchema,
   componeyInformation: companyInformationSchema,
-  role: roleSchema,
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
 });
 
-export default mongoose.model("Recruiter", recruiterSchema);
+const RecruiterInformation = mongoose.models.RecruiterInformation || mongoose.model('RecruiterInformation', recruiterSchema);
+export default RecruiterInformation;
