@@ -5,7 +5,8 @@ const connectMongoDB = async () => {
         console.log("requested Connection");
         
         // await mongoose.connect("mongodb+srv://murtuzakapasi:THEboss53@cluster0.ivwr4cp.mongodb.net/mentorlink");
-        await mongoose.connect("mongodb+srv://Hirelink:hirelink123@hirelink.kzx44r2.mongodb.net/HireLinkDb");
+        const uri = process.env.MONGODB_URI!;
+        await mongoose.connect(uri);
         console.log("MongoDB connected successfully");
     }
     catch(err){

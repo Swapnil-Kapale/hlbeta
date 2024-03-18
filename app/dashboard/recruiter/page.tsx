@@ -181,8 +181,8 @@ const RecruiterDashbord = () => {
 
   console.log(requestBody)
 
-  const apiUrl =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyC8WoZthOGysSsulvXLKUQLNBXSJ9Y6p6o ";
+  const apiUrl = process.env.GEMINI_URI;
+    // "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyC8WoZthOGysSsulvXLKUQLNBXSJ9Y6p6o ";
 
   fetch(apiUrl, requestOptions)
     .then((response) => response.json())
