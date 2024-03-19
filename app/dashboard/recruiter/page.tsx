@@ -51,8 +51,11 @@ const RecruiterDashbord = () => {
       const tempRecruiter = {
         name: response.data.data.name
       }
-      console.log("temp Recruiter Data:", tempRecruiter);
+      setJobOpenings(response.data.jobOpeningsData);
       setRecruiter(tempRecruiter);
+
+      console.log("temp Recruiter Data:", tempRecruiter);
+      console.log("Job Openings Data:", response.data.data.jobOpeningsData);
     }
   }
   
@@ -64,68 +67,7 @@ const RecruiterDashbord = () => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
   const [jobOpenings, setJobOpenings] = React.useState<JobOpening[]>([]);
-  const dummyJobOpenings: JobOpening[] = [
-    {
-      id: "1",
-      title: "Frontend Developer",
-      type: "Full-time",
-      location: "Pune",
-      description: "We are looking for a Frontend Developer with 5+ years of experience",
-      role: "Frontend Developer",
-      skills: ["React", "JavaScript", "HTML", "CSS"],
-      experience: 5,
-      salary: "10-15 LPA",
-      status: "Open",
-    },
-    {
-      id: "2",
-      title: "Backend Developer",
-      type: "Full-time",
-      location: "Pune",
-      description: "We are looking for a Backend Developer with 5+ years of experience",
-      role: "Backend Developer",
-      skills: ["Node.js", "Express.js", "MongoDB"],
-      experience: 5,
-      salary: "10-15 LPA",
-      status: "Open",
-    },
-    {
-      id: "3",
-      title: "Fullstack Developer",
-      type: "Full-time",
-      location: "Pune",
-      description: "We are looking for a Fullstack Developer with 5+ years of experience",
-      role: "Fullstack Developer",
-      skills: ["React", "Node.js", "Express.js", "MongoDB"],
-      experience: 5,
-      salary: "10-15 LPA",
-      status: "Open",
-    },
-    {
-      id: "4",
-      title: "Data Scientist",
-      type: "Full-time",
-      location: "Pune",
-      description: "We are looking for a Data Scientist with 5+ years of experience",
-      role: "Data Scientist",
-      skills: ["Python", "Machine Learning", "Deep Learning"],
-      experience: 5,
-      salary: "10-15 LPA",
-      status: "Open",
-    },
-    {
-      id: "5",
-      title: "DevOps Engineer",
-      type: "Full-time",
-      location: "Pune",
-      description: "We are looking for a DevOps Engineer with 5+ years of experience",
-      role: "DevOps Engineer",
-      skills: ["Docker", "Kubernetes", "Jenkins"],
-      experience: 5,
-      salary: "10-15 LPA",
-      status: "Open",
-    },
-  ];
+
   const [htmlData, setHtmlData] = React.useState("");
 
   const [selectedJob, setSelectedJob] = React.useState<JobOpening | null>(null);
@@ -204,7 +146,7 @@ const RecruiterDashbord = () => {
     };
     
     
-    const apiUrl = process.env.GEMINI_URI!;
+    const apiUrl = process.env.GEMINI_URI;
     // "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyC8WoZthOGysSsulvXLKUQLNBXSJ9Y6p6o ";
     
     fetch(apiUrl, requestOptions)
@@ -398,7 +340,7 @@ const RecruiterDashbord = () => {
 
       <div className="flex mt-52 mx-10 gap-x-4 justify-center items-center">
         <div className="flex flex-col justify-between p-10 w-1/4 gap-y-5 overflow-scroll max-h-[1000px]">
-          {dummyJobOpenings.map((jobOpening) => (
+          {jobOpenings.map((jobOpening) => (
             <div
               key={jobOpening.id} // Adding a unique key for each card
               className="bg-white p-4 rounded-xl mb-4 w-full md:mr-4 relative"
