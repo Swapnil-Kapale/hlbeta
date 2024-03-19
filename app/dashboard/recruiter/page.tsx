@@ -2,7 +2,18 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ToastContainer, toast } from 'react-toastify';
+import { useEffect } from "react";
+import axios from "axios";
+
+interface Candidate{
+  name: string;
+  skills: string[];
+  experience: number;
+  location: string;
+  education: string;
+  languages: string[];
+  time: string;
+}
 
 interface JobOpening {
   id: string;
@@ -15,19 +26,42 @@ interface JobOpening {
   applicants: number;
   created_at: string;
 }
-
-
-interface candidate{
+interface recruiter{
   name: string;
-  skills: string[];
-  experience: number;
-  location: string;
-  education: string;
-  languages: string[];
-  time: string;
 }
 
+
 const RecruiterDashbord = () => {
+
+
+  // fetching login recruiter data
+  
+  const [recruiter, setRecruiter] = React.useState<recruiter>({
+    name: "Swapnil Kapale",
+  });
+
+  const fetchData = async () => {
+    
+    const response = await axios.get('/api/user/');
+    if(response.status !== 200) {
+      console.error("Error fetching user data:", response);
+    }
+    else {
+      console.log("Recruiter Data:", response.data);
+      const tempRecruiter = {
+        name: response.data.data.name
+      }
+      console.log("temp Recruiter Data:", tempRecruiter);
+      setRecruiter(tempRecruiter);
+    }
+  }
+  
+
+  useEffect(() => {
+    fetchData();
+  },[])
+
+
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
   const [jobOpenings, setJobOpenings] = React.useState<JobOpening[]>([
@@ -38,7 +72,7 @@ const RecruiterDashbord = () => {
   const [htmlData, setHtmlData] = React.useState("");
 
   const [selectedJob, setSelectedJob] = React.useState<JobOpening | null>(null);
-  const handleCardClick = (jobOpening) => {
+  const handleCardClick = (jobOpening:JobOpening) => {
     setSelectedJob(jobOpening);
   };
 
@@ -102,7 +136,7 @@ const RecruiterDashbord = () => {
     },
   ];
 
-  const dummyCandidates: candidate[] = [
+  const dummyCandidates: Candidate[] = [
     {
       name: "John Doe",
  
@@ -135,18 +169,12 @@ const RecruiterDashbord = () => {
     },
     // Add more dummy candidates as needed
   ];
-  
-  
-    
-
-
-
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
-  const handleCandidateClick = (candidate) => {
+  const handleCandidateClick = (candidate:Candidate) => {
     console.log(candidate);
 
     const candistring = JSON.stringify(candidate);
@@ -198,6 +226,7 @@ const RecruiterDashbord = () => {
   
 
   return (
+
     <div className="w-screen h-auto flex flex-col bg-[#f5e8e8]">
       {/* Header */}
       <div className="bg-[#17191c] h-28 border-gray-100 border-b-[1px] py-4 px-6 flex justify-between items-center">
@@ -210,7 +239,11 @@ const RecruiterDashbord = () => {
             className="flex items-center cursor-pointer"
             onClick={toggleDropdown}
           >
-            <span className="mr-4 text-white">Swapnil Kapale</span>
+            <div className="flex flex-col">
+              <span className="mr-4 text-white">{recruiter.name}</span>
+              <span className="bg-[#e11d48] text-white w-28 rounded-lg px-4 flex justify-center items-center">Recruiter</span>
+            </div>
+            
             <div className="w-12 h-12 rounded-full bg-white flex justify-center items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -548,3 +581,7 @@ const RecruiterDashbord = () => {
 };
 
 export default RecruiterDashbord;
+
+function useeffect(arg0: () => void, arg1: never[]) {
+  throw new Error("Function not implemented.");
+}
