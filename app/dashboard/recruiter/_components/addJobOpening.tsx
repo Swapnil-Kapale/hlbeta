@@ -28,8 +28,10 @@ interface JobOpening {
   salary: string;
   status: string;
 }
-export function DrawerDialog() {
+export function DrawerDialog(params: any) {
+  console.log(params);
   const [open, setOpen] = React.useState(false)
+  
   const [addJobOpening, setAddJobOpening] = React.useState<JobOpening>(
     {
       id: "",
@@ -53,6 +55,7 @@ export function DrawerDialog() {
     console.log(response);
     if (response.data.status === 201) {
       console.log("Job Opening added successfully");
+      params.setOutOpen(!params.outOpen);
       setOpen(false);
     }else{
       console.log("Job Opening not added");

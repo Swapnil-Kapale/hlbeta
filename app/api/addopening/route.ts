@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     // get user id from token
     const { userId } = getDataFromToken(request);
-    console.log(userId);
+    console.log("userId",userId);
 
     // add user id to the job opening
     newJobOpening.user = userId;
@@ -47,9 +47,10 @@ export async function POST(request: NextRequest) {
 
     // find given user id inside recruiterinformation collection
     const user = await User.findById(userId);
+    console.log("user",user.informationRef);
 
     // find recruiterinformation collection and push the new job opening
-    const userinformation = await RecruiterInformation.findOne(user.userId);
+    const userinformation = await RecruiterInformation.findOne(user.informationRef);
     userinformation.jobOpenings.push(newJobOpening);
 
     // Save the user
