@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import axios from "axios";
+import {DrawerDialog} from "@/app/dashboard/recruiter/_components/addJobOpening";
 
 interface Candidate{
   name: string;
@@ -14,17 +15,17 @@ interface Candidate{
   languages: string[];
   time: string;
 }
-
 interface JobOpening {
   id: string;
   title: string;
+  type: string;
   location: string;
-  summary: string;
+  description: string;
   role: string;
   skills: string[];
+  experience: number;
+  salary: string;
   status: string;
-  applicants: number;
-  created_at: string;
 }
 interface recruiter{
   name: string;
@@ -32,7 +33,6 @@ interface recruiter{
 
 
 const RecruiterDashbord = () => {
-
 
   // fetching login recruiter data
   
@@ -56,7 +56,6 @@ const RecruiterDashbord = () => {
     }
   }
   
-
   useEffect(() => {
     fetchData();
   },[])
@@ -64,11 +63,69 @@ const RecruiterDashbord = () => {
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
-  const [jobOpenings, setJobOpenings] = React.useState<JobOpening[]>([
-
-
-  ]);
-
+  const [jobOpenings, setJobOpenings] = React.useState<JobOpening[]>([]);
+  const dummyJobOpenings: JobOpening[] = [
+    {
+      id: "1",
+      title: "Frontend Developer",
+      type: "Full-time",
+      location: "Pune",
+      description: "We are looking for a Frontend Developer with 5+ years of experience",
+      role: "Frontend Developer",
+      skills: ["React", "JavaScript", "HTML", "CSS"],
+      experience: 5,
+      salary: "10-15 LPA",
+      status: "Open",
+    },
+    {
+      id: "2",
+      title: "Backend Developer",
+      type: "Full-time",
+      location: "Pune",
+      description: "We are looking for a Backend Developer with 5+ years of experience",
+      role: "Backend Developer",
+      skills: ["Node.js", "Express.js", "MongoDB"],
+      experience: 5,
+      salary: "10-15 LPA",
+      status: "Open",
+    },
+    {
+      id: "3",
+      title: "Fullstack Developer",
+      type: "Full-time",
+      location: "Pune",
+      description: "We are looking for a Fullstack Developer with 5+ years of experience",
+      role: "Fullstack Developer",
+      skills: ["React", "Node.js", "Express.js", "MongoDB"],
+      experience: 5,
+      salary: "10-15 LPA",
+      status: "Open",
+    },
+    {
+      id: "4",
+      title: "Data Scientist",
+      type: "Full-time",
+      location: "Pune",
+      description: "We are looking for a Data Scientist with 5+ years of experience",
+      role: "Data Scientist",
+      skills: ["Python", "Machine Learning", "Deep Learning"],
+      experience: 5,
+      salary: "10-15 LPA",
+      status: "Open",
+    },
+    {
+      id: "5",
+      title: "DevOps Engineer",
+      type: "Full-time",
+      location: "Pune",
+      description: "We are looking for a DevOps Engineer with 5+ years of experience",
+      role: "DevOps Engineer",
+      skills: ["Docker", "Kubernetes", "Jenkins"],
+      experience: 5,
+      salary: "10-15 LPA",
+      status: "Open",
+    },
+  ];
   const [htmlData, setHtmlData] = React.useState("");
 
   const [selectedJob, setSelectedJob] = React.useState<JobOpening | null>(null);
@@ -76,65 +133,6 @@ const RecruiterDashbord = () => {
     setSelectedJob(jobOpening);
   };
 
-  // dummy data for job openings
-  const dummyJobOpenings: JobOpening[] = [
-    {
-      id: "1",
-      title: "Software Developer",
-      location: "Pune",
-      summary:
-        "We are looking for a software developer with 2 years of experience",
-      role: "Full Time",
-      skills: ["React", "Node", "MongoDB"],
-      status: "Open",
-      applicants: 3,
-      created_at: "2021-09-01",
-    },
-    {
-      id: "2",
-      title: "Frontend Developer",
-      location: "Bangalore",
-      summary: "Exciting opportunity for a frontend developer to join our team",
-      role: "Full Time",
-      skills: ["JavaScript", "React", "HTML", "CSS"],
-      status: "Open",
-      applicants: 8,
-      created_at: "2021-10-15",
-    },
-    {
-      id: "3",
-      title: "Data Scientist",
-      location: "Mumbai",
-      summary: "Join our data science team and work on cutting-edge projects",
-      role: "Contract",
-      skills: ["Python", "Machine Learning", "Statistics"],
-      status: "Open",
-      applicants: 5,
-      created_at: "2021-11-20",
-    },
-    {
-      id: "4",
-      title: "Backend Engineer",
-      location: "Hyderabad",
-      summary: "We are hiring backend engineers to build scalable applications",
-      role: "Full Time",
-      skills: ["Java", "Spring Boot", "MySQL"],
-      status: "Open",
-      applicants: 12,
-      created_at: "2021-12-05",
-    },
-    {
-      id: "5",
-      title: "UI/UX Designer",
-      location: "Chennai",
-      summary: "Join our design team and create stunning user interfaces",
-      role: "Part Time",
-      skills: ["Adobe XD", "Sketch", "Figma"],
-      status: "Open",
-      applicants: 6,
-      created_at: "2022-01-10",
-    },
-  ];
 
   const dummyCandidates: Candidate[] = [
     {
@@ -176,15 +174,15 @@ const RecruiterDashbord = () => {
 
   const handleCandidateClick = (candidate:Candidate) => {
     console.log(candidate);
-
+    
     const candistring = JSON.stringify(candidate);
     const jobstring = JSON.stringify(selectedJob);
-
+    
     // Construct the prompt string
     const prompt =
     "This is candidate profile and job description. Please compare them and give creative and interesting summary of match between them in about 20 lines (pointwise). Use plain html for styling, not even CSS, compulsarily.Use html headings, bold text, breaks (NO MARKDOWN) and make the match profile interesting.In the end add simple 'MATCH SCORE' rating match out of 10.\n" +
     "candidate profile: " + candistring + "\n Job Description: " + jobstring;
-
+    
     const requestBody = {
       contents: [
         {
@@ -196,23 +194,20 @@ const RecruiterDashbord = () => {
         },
       ],
     };
-
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestBody),
-  };
-
-  
-
-  console.log(requestBody)
-
-  const apiUrl = process.env.GEMINI_URI;
+    
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    };
+    
+    
+    const apiUrl = process.env.GEMINI_URI!;
     // "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyC8WoZthOGysSsulvXLKUQLNBXSJ9Y6p6o ";
-
-  fetch(apiUrl, requestOptions)
+    
+    fetch(apiUrl, requestOptions)
     .then((response) => response.json())
     .then((data) => {
       const jsonData = data.candidates[0].content.parts[0].text;
@@ -302,9 +297,7 @@ const RecruiterDashbord = () => {
         <h1 className="text-white text-xl pt-4">Hello Swapnil</h1>
         <div className="flex py-4 w-full justify-between">
           <h1 className="text-white font-bold text-3xl">Good Morning</h1>
-          <button className="bg-[#e11d48] text-white px-3 rounded-md">
-            Add Opening
-          </button>
+          <DrawerDialog/>
         </div>
 
         <div>
@@ -415,7 +408,7 @@ const RecruiterDashbord = () => {
               <div className="absolute -top-4 left-4">
                 <div className="w-12 h-12 rounded-full bg-[#e11d48] flex items-center justify-center">
                   <span className="text-white font-bold text-lg">
-                    {jobOpening.applicants}
+                    10
                   </span>
                 </div>
               </div>
@@ -431,9 +424,8 @@ const RecruiterDashbord = () => {
                 <p className="text-sm text-gray-400 mb-2 mt-6">
                   {jobOpening.role}
                 </p>
-                <p className="text-sm text-gray-400 mb-2 mt-6">
-                  {jobOpening.created_at}
-                </p>
+
+            
               </div>
             </div>
           ))}
@@ -485,14 +477,14 @@ const RecruiterDashbord = () => {
                       Applicants
                     </h2>
                     <p className="text-lg text-gray-600 mt-2">
-                      {selectedJob?.applicants}
+                      40
                     </p>
 
                     <h2 className="text-xl font-semibold text-gray-800 mt-6">
                       Created At
                     </h2>
                     <p className="text-lg text-gray-600 mt-2">
-                      {selectedJob?.created_at}
+                      10
                     </p>
                   </div>
                 </div>
@@ -558,7 +550,6 @@ const RecruiterDashbord = () => {
                                   Languages: {candidate.languages.join(", ")}
                                 </p>
                                 <button className="bg-black h-[40px] w-[150px] rounded-lg px-2 *: mt-2 text-white"
-                                  onClick={ () => toast("Request Sent!")}
                                 >
                                   Show Interest
                                 </button>

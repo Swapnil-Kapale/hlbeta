@@ -1,32 +1,39 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+// models/jobDescriptionSchema.ts
 
+import mongoose, { Schema, Document } from 'mongoose';
+
+// Define the interface for JobOpening
+export interface JobOpening extends Document {
+  id: string;
+  title: string;
+  type: string;
+  location: string;
+  description: string;
+  role: string;
+  skills: string[];
+  experience: number;
+  salary: string;
+  status: string;
+}
+
+// Define the job profile schema
 const jobProfileSchema = new Schema({
-  // Company Information
-  companyName: { type: String, required: true },
-  companyAddress: { type: String, required: true },
-  companyPhone: { type: String, required: true },
-  companyEmail: { type: String, required: true },
-  companyWebsite: { type: String, required: true },
-  companyDescription: { type: String, required: true },
+  // Recruiter Information
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
 
   // Job Information
-  jobTitle: { type: String, required: true },
-  jobType: { type: String, enum: ['Full-time', 'Part-time', 'Contract', 'Freelance'], required: true },
-  jobCategory: { type: String, required: true },
-  jobLocation: { type: String, required: true },
-  jobDescription: { type: String, required: true },
-  requiredSkills: [{ type: String }],
-  experienceLevel: { type: String, required: true },
-
-  // Additional Information
-  salaryRange: { type: String },
-  benefits: [{ type: String }],
-  applicationDeadline: { type: Date, required: true },
-  postedDate: { type: Date, default: Date.now }
+  id: { type: String, required: true },
+  title: { type: String, required: true },
+  type: { type: String, required: true },
+  location: { type: String, required: true },
+  description: { type: String, required: true },
+  role: { type: String, required: true },
+  skills: { type: [String], required: true },
+  experience: { type: Number, required: true },
+  salary: { type: String, required: true },
+  status: { type: String, required: true },
+  date: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('JobProfile', jobProfileSchema);
-
-const RecruiterInformation = mongoose.models.jobProfileSchema || mongoose.model('RecruiterInformation', jobProfileSchema);
-export default RecruiterInformation;
+// Export the JobProfile model
+export default mongoose.models.JobProfile || mongoose.model<JobOpening>('JobProfile', jobProfileSchema);

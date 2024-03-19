@@ -14,7 +14,9 @@ export async function GET(request: NextRequest) {
         const data = await User.findOne({ _id: userId }).select('name');
         console.log("data",data);
 
-        // const recruiter = await RecruiterInformation.findOne(userId).select('skills qualification about github linkedin');
+        // find all job openings of the recruiter using ref in jobOpenings
+        const recruiter = await RecruiterInformation.findOne({ user: userId }).populate('jobOpenings');
+        console.log("recruiter",recruiter);
         
         // console.log("recruiter",recruiter);
 

@@ -18,6 +18,7 @@ const companyInformationSchema = new Schema({
   companyDescription: { type: String },
 });  
 
+  
 const recruiterSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },
   contactInformation: contactInformationSchema,
