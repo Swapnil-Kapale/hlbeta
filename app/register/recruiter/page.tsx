@@ -13,14 +13,16 @@ interface ContactInformation {
   address: string;
 }
 
+
 interface CompanyInformation {
   companyName: string;
-  commpanyAddress: string;
+  companyAddress: string;
   companyPhone: string;
   companyEmail: string;
   companyWebsite: string;
   companyDescription: string;
 }
+
 
 interface Security {
   password: string;
@@ -50,7 +52,7 @@ const RecruiterRegisterPage = () => {
       },
       companyInformation: {
         companyName:"ABC",
-        commpanyAddress:"Dhaka",
+        companyAddress:"Dhaka",
         companyPhone:"123456789",
         companyEmail:"g@g.com",
         companyWebsite:"www.abc.com",
@@ -220,13 +222,13 @@ const RecruiterRegisterPage = () => {
 
               <Input
                 placeholder="Company Address"
-                value={recruiterInformation.companyInformation.commpanyAddress}
+                value={recruiterInformation.companyInformation.companyAddress}
                 onChange={(e) =>
                   setRecruiterInformation({
                     ...recruiterInformation,
                     companyInformation: {
                       ...recruiterInformation.companyInformation,
-                      commpanyAddress: e.target.value,
+                      companyAddress: e.target.value,
                     },
                   })
                 }

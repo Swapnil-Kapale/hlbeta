@@ -5,6 +5,7 @@ import ResumeInformation from "@/app/models/resumeInformation";
 import User from "@/app/models/userSchema";
 import RecruiterInformation from "@/app/models/recruiterScheme";
 
+
 interface ContactInformation {
   firstName: string;
   lastName: string;
@@ -15,7 +16,7 @@ interface ContactInformation {
 
 interface CompanyInformation {
   companyName: string;
-  commpanyAddress: string;
+  companyAddress: string;
   companyPhone: string;
   companyEmail: string;
   companyWebsite: string;
@@ -124,6 +125,7 @@ export async function POST(request: NextRequest) {
         email,
         password: hashedPassword,
         role: userrole,
+        informationRef: null,
       });
 
       await newUser.save();
@@ -158,6 +160,11 @@ export async function POST(request: NextRequest) {
       // Save the new resume information
       await newCandidate.save();
 
+      // Update the user's informationRef field
+      newUser.informationRef = newCandidate._id;
+
+      await newUser.save();
+
       return NextResponse.json({
         message: "candidate Created.",
       });
@@ -177,23 +184,39 @@ export async function POST(request: NextRequest) {
         email,
         password: hashedPassword,
         role: userrole,
+        informationRef: null,
       });
 
       await newUser.save();
 
       const { contactInformation, companyInformation } = body;
+      
+      console.log("contactInformation", contactInformation );
+      console.log("companyInformation", companyInformation );
+      
 
       const newRecruiter = await RecruiterInformation.create({
         contactInformation,
-        companyInformation,
-        userId: newUser._id,
+        companyInformation:{
+          companyName: companyInformation.companyName,
+          companyAddress: companyInformation.companyAddress,
+          companyPhone: companyInformation.companyPhone,
+          companyEmail: companyInformation.companyEmail,
+          companyWebsite: companyInformation.companyWebsite,
+          companyDescription: companyInformation.companyDescription
+        },
         jobOpenings: [],
+        userId: newUser._id,
       });
 
       console.log("new recruiter", newRecruiter);
 
       // Save the new resume information
       await newRecruiter.save();
+
+      // Update the user's informationRef field
+      newUser.informationRef = newRecruiter._id;
+      await newUser.save();
 
       return NextResponse.json({
         message: "recruiter Created.",

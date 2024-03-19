@@ -1,20 +1,10 @@
-import * as React from "react"
+'use client'
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-
+import React from 'react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
 import axios from "axios";
-
 
 interface JobOpening {
   id: string;
@@ -28,8 +18,8 @@ interface JobOpening {
   salary: string;
   status: string;
 }
-export function DrawerDialog() {
-  const [open, setOpen] = React.useState(false)
+
+const Job = () => {
   const [addJobOpening, setAddJobOpening] = React.useState<JobOpening>(
     {
       id: "",
@@ -53,26 +43,13 @@ export function DrawerDialog() {
     console.log(response);
     if (response.data.status === 201) {
       console.log("Job Opening added successfully");
-      setOpen(false);
     }else{
       console.log("Job Opening not added");
     }
   }
- 
-    return (
-
-      <Dialog  open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button>Add Opening</Button>
-        </DialogTrigger>
-        <DialogContent className="w-auto pl-10">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">Add Job Opening</DialogTitle>
-            <DialogDescription className="text-lg pb-10">
-              Add a new job opening to the list of available positions.
-            </DialogDescription>
-          </DialogHeader>
-          <form className={cn("flex flex-col justify-center items w-[1000px] bg-white gap-10")}>
+  
+  return (
+    <form className="flex flex-col justify-center items w-[1000px] bg-white gap-10">
 
       <div className="flex gap-16">
 
@@ -189,9 +166,8 @@ export function DrawerDialog() {
       <Button className="w-48" type="submit" onClick={handleAddOpening}>Save changes</Button>
       </div>
 
-         </form>
-        </DialogContent>
-      </Dialog>
-    )
-
+    </form>
+  )
 }
+
+export default Job

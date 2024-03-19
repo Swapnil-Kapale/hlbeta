@@ -1,6 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 import User from "../models/userSchema";
 
+interface CompanyInformation {
+  companyName: string;
+  companyAddress: string;
+  companyPhone: string;
+  companyEmail: string;
+  companyWebsite: string;
+  companyDescription: string;
+}
+
 const contactInformationSchema = new Schema({
   firstName: { type: String },
   lastName: { type: String },
@@ -20,12 +29,12 @@ const companyInformationSchema = new Schema({
 
   
 const recruiterSchema = new Schema({
-  user: { type: Schema.Types.ObjectId, ref: "User" },
   contactInformation: contactInformationSchema,
-  componeyInformation: companyInformationSchema,
+  companyInformation: companyInformationSchema,
   jobOpenings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'JobOpening' }],
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const RecruiterInformation = mongoose.models.RecruiterInformation || mongoose.model('RecruiterInformation', recruiterSchema);
