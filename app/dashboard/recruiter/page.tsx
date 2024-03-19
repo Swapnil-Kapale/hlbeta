@@ -6,15 +6,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import {DrawerDialog} from "@/app/dashboard/recruiter/_components/addJobOpening";
 
-interface Candidate{
-  name: string;
-  skills: string[];
-  experience: number;
-  location: string;
-  education: string;
-  languages: string[];
-  time: string;
-}
+
 interface JobOpening {
   id: string;
   title: string;
@@ -30,6 +22,57 @@ interface JobOpening {
 interface recruiter{
   name: string;
 }
+
+interface Candidate {
+  document: {
+    _id: string;
+    userId: string;
+    contactInformation: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+      address?: string | null;
+      _id: string;
+    };
+    summary: string;
+    education: {
+      degree: string;
+      school: string;
+      major: string | null;
+      graduationDate: string | null;
+      _id: string;
+    }[];
+    workExperience: {
+      jobTitle: string;
+      company: string;
+      location?: string | null;
+      startDate: string | null;
+      endDate: string | null;
+      description: string;
+      _id: string;
+    }[];
+    skills: string[];
+    certifications: {
+      name: string;
+      issuingOrganization: string;
+      issuedDate: string;
+      expiryDate: string | null;
+      _id: string;
+    }[];
+    projects: {
+      title: string;
+      date: string | null;
+      description: string;
+      _id: string;
+    }[];
+    achievements: string[];
+    additionalInformation: string | null;
+    __v: number;
+  };
+  scorePercentage: number;
+}
+
 
 
 const RecruiterDashbord = () => {
@@ -71,44 +114,25 @@ const RecruiterDashbord = () => {
   const [htmlData, setHtmlData] = React.useState("");
 
   const [selectedJob, setSelectedJob] = React.useState<JobOpening | null>(null);
-  const handleCardClick = (jobOpening:JobOpening) => {
+  
+  const [candidates, setCandidates] = React.useState<Candidate[]>([]);
+
+  const handleCardClick = async (jobOpening:JobOpening) => {
     setSelectedJob(jobOpening);
+
+    const response = await axios.post("/api/profilematching/",jobOpening);
+
+    if(response.status !== 200) {
+      console.error("Error fetching user data:", response);
+    }
+    else {
+      console.log(response.data.topDocuments);
+      setCandidates(response.data.topDocuments);
+
+    }
   };
 
 
-  const dummyCandidates: Candidate[] = [
-    {
-      name: "John Doe",
- 
-      skills: ["JavaScript", "React", "Node.js"],
-      experience: 5,
-      location: "pune",
-      education: "Bachelor's in Computer Science",
-      languages: ["English", "Spanish"],
-      time: "full-time"
-    },
-    {
-      name: "Jane Smith",
-  
-      skills: ["Python", "Django", "SQL"],
-      experience: 4,
-      location: "San Francisco",
-      education: "Master's in Data Science",
-      languages: ["English", "French"],
-      time: "contract"
-    },
-    {
-      name: "Alice Johnson",
-   
-      skills: ["Java", "Spring Boot", "MongoDB"],
-      experience: 6,
-      location: "London",
-      education: "Bachelor's in Software Engineering",
-      languages: ["English", "German"],
-      time: "full-time"
-    },
-    // Add more dummy candidates as needed
-  ];
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -458,11 +482,11 @@ const RecruiterDashbord = () => {
                   className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2 "
                 >
                   {
-                    dummyCandidates.map((candidate) => (
+                    candidates.map((candidate) => (
 
                       <>
 
-                          <li key={candidate.name} onClick={() => handleCandidateClick(candidate)} className="hover:cursor-pointer">
+                          <li key={candidate.document.contactInformation.firstName} onClick={() => handleCandidateClick(candidate)} className="hover:cursor-pointer">
                             <div className="flex h-48  items-center gap-x-6 bg-slate-100 p-4 rounded-lg">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -477,20 +501,17 @@ const RecruiterDashbord = () => {
                               </svg>
                               <div>
                                 <h3 className="text-xl font-semibold leading-7 tracking-tight text-gray-900">
-                                  {candidate.name}
+                                  {candidate.document.contactInformation.firstName}{" "}{candidate.document.contactInformation.lastName}
                                 </h3>
+                
                                 <p className="text-sm font-semibold leading-6 text-slate-600">
-                                  Experience: {candidate.experience} Years
+                                  {candidate.document.contactInformation.address}
                                 </p>
+
                                 <p className="text-sm font-semibold leading-6 text-slate-600">
-                                  Location: {candidate.location}
+                                  Skill Score: {candidate.scorePercentage}%
                                 </p>
-                                <p className="text-sm font-semibold leading-6 text-slate-600">
-                                  Education: {candidate.education}
-                                </p>
-                                <p className="text-sm font-semibold leading-6 text-slate-600">
-                                  Languages: {candidate.languages.join(", ")}
-                                </p>
+                        
                                 <button className="bg-black h-[40px] w-[150px] rounded-lg px-2 *: mt-2 text-white"
                                 >
                                   Show Interest

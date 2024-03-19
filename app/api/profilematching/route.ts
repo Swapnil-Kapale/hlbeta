@@ -9,24 +9,14 @@ const client = new MongoClient(uri, {
 });
 
 export async function POST(request: NextRequest) {
-  console.log("Called");
-
+  
   try {
-    const skillArray = [
-      "HTML5, CSS3, JavaScript",
-      "SQL, MongoDB",
-      "Git, GitHub",
-      "XAMPP",
-      "Python",
-      "PyTorch",
-      "Neural Networks",
-      "CNNs, RNNs",
-      "C",
-      "C++",
-      "Java",
-      "DSA",
-      "Computer Networks",
-    ];
+    console.log("Called");
+  
+    const body = await request.json();
+    console.log(body);
+  
+    const skillArray = body.skills
 
     // Connect to the MongoDB Atlas cluster
     await client.connect();
@@ -42,8 +32,8 @@ export async function POST(request: NextRequest) {
 
     // Iterate over the cursor and process each document
     await cursor.forEach((document: any) => {
-      // Process each document here
-      const documentSkills = document.skills;
+    // Process each document here
+    const documentSkills = document.skills;
 
       // Count matched skills for the current document
       let matchedSkills = 0;
@@ -65,13 +55,13 @@ export async function POST(request: NextRequest) {
     matchedDocuments.sort((a, b) => b.scorePercentage - a.scorePercentage);
 
     // Get the top 5 documents
-    const top5Documents = matchedDocuments.slice(0, 5);
+    const topDocuments = matchedDocuments.slice(0, 5);
 
-    console.log(top5Documents);
+    console.log(topDocuments);
 
     return NextResponse.json({
       status: 200,
-      top5Documents: top5Documents,
+      topDocuments: topDocuments,
     });
   } catch (error) {
     console.error("Error logging in:", error);
