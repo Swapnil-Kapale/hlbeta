@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -75,7 +75,8 @@ interface Candidate {
 
 
 
-const RecruiterDashbord = () => {
+
+  const RecruiterDashbord = () => {
 
   // fetching login recruiter data
   
@@ -106,6 +107,7 @@ const RecruiterDashbord = () => {
     fetchData();
   },[])
 
+ 
 
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
@@ -117,7 +119,17 @@ const RecruiterDashbord = () => {
   
   const [candidates, setCandidates] = React.useState<Candidate[]>([]);
 
+  const [outOpen, setOutOpen] = React.useState(false);
+
+  useEffect(() => {
+
+    fetchData();
+    
+  }, [outOpen]);
+
+
   const handleCardClick = async (jobOpening:JobOpening) => {
+
     setSelectedJob(jobOpening);
 
     const response = await axios.post("/api/profilematching/",jobOpening);
@@ -139,11 +151,11 @@ const RecruiterDashbord = () => {
   };
 
   const handleCandidateClick = (candidate:Candidate) => {
-    console.log(candidate);
+
     
     const candistring = JSON.stringify(candidate);
     const jobstring = JSON.stringify(selectedJob);
-    
+
     // Construct the prompt string
     const prompt =
     "This is candidate profile and job description. Please compare them and give creative and interesting summary of match between them in about 20 lines (pointwise). Use plain html for styling, not even CSS, compulsarily.Use html headings, bold text, breaks (NO MARKDOWN) and make the match profile interesting.In the end add simple 'MATCH SCORE' rating match out of 10.\n" +
@@ -170,8 +182,9 @@ const RecruiterDashbord = () => {
     };
     
     
-    const apiUrl = process.env.GEMINI_URI;
-    // "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyC8WoZthOGysSsulvXLKUQLNBXSJ9Y6p6o ";
+    const apiUrl="https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyC8WoZthOGysSsulvXLKUQLNBXSJ9Y6p6o ";
+
+    console.log(apiUrl);
     
     fetch(apiUrl, requestOptions)
     .then((response) => response.json())
@@ -263,7 +276,9 @@ const RecruiterDashbord = () => {
         <h1 className="text-white text-xl pt-4">Hello Swapnil</h1>
         <div className="flex py-4 w-full justify-between">
           <h1 className="text-white font-bold text-3xl">Good Morning</h1>
-          <DrawerDialog/>
+  
+            <DrawerDialog outOpen = {outOpen} setOutOpen = {setOutOpen}/>
+          
         </div>
 
         <div>
