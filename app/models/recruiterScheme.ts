@@ -23,6 +23,7 @@ const recruiterSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },
   contactInformation: contactInformationSchema,
   componeyInformation: companyInformationSchema,
+  jobOpenings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'JobOpening' }],
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
 });

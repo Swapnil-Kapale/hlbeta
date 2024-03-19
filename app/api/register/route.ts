@@ -187,6 +187,7 @@ export async function POST(request: NextRequest) {
         contactInformation,
         companyInformation,
         userId: newUser._id,
+        jobOpenings: [],
       });
 
       console.log("new recruiter", newRecruiter);

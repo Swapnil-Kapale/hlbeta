@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDataFromToken } from '@/helper/getDataFromToken';
 import JobProfile from '@/app/models/jobDescriptionSchema';
 import connectMongoDB from "@/libs/mongodb";
+import User from '@/app/models/userSchema';
 
 export async function POST(request: NextRequest) {
   try {
@@ -42,6 +43,14 @@ export async function POST(request: NextRequest) {
     // Save the job opening
     await newJobOpening.save();
     console.log("Job opening added successfully");
+
+    // add refernce to the user fetched from the token
+    const user = await User.findById(userId);
+    console.log(user);
+    user.jobOpenings.push(newJobOpening);
+
+    // Save the user
+    await user.save();
 
     // Return success response
     return NextResponse.json({ status: 201, message: "Job opening added successfully" });
