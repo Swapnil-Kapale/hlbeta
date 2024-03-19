@@ -4,7 +4,7 @@ const bcryptjs = require("bcryptjs");
 import ResumeInformation from "@/app/models/resumeInformation";
 import User from "@/app/models/userSchema";
 import RecruiterInformation from "@/app/models/recruiterScheme";
-
+import sendEmail from "@/libs/sendEmail";
 
 interface ContactInformation {
   firstName: string;
@@ -130,6 +130,10 @@ export async function POST(request: NextRequest) {
 
       await newUser.save();
 
+      // Send Welcome mail to recruiter
+      const text = "This is a plain text email";
+      sendEmail(newUser.email, text, newUser.role, newUser.name);
+
       const {
         contactInformation,
         summary,
@@ -213,6 +217,10 @@ export async function POST(request: NextRequest) {
 
       // Save the new resume information
       await newRecruiter.save();
+
+      // Send Welcome mail to recruiter
+      const text = "This is a plain text email";
+      sendEmail(newUser.email, text, newUser.role, newUser.name);
 
       // Update the user's informationRef field
       newUser.informationRef = newRecruiter._id;

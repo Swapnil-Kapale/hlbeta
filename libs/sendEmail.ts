@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-async function sendEmail(to, subject, text, role, name)
+async function sendEmail(to, text, role, name)
 {
 // export async function POST(request: NextRequest) {
     // Create a transporter object using the default SMTP transport
@@ -189,7 +189,7 @@ async function sendEmail(to, subject, text, role, name)
             let mailOptions = {
                 from: "hirelink06@gmail.com",
                 to: to,
-                subject: subject,
+                subject: "Elevate Your Career Journey with Us!",
                 text: text,
                 html: candidateHtml,
             };
@@ -374,7 +374,7 @@ async function sendEmail(to, subject, text, role, name)
             let mailOptions = {
                 from: "hirelink06@gmail.com",
                 to: to,
-                subject: subject,
+                subject: "Transform Your Hiring Process with Us!",
                 text: text,
                 html: recruiterHtml,
             };
@@ -391,3 +391,5 @@ const role = "candidate";
 const name = "Shantanu";
 
 // sendEmail(to, subject, text, role, name).catch(console.error);
+
+export default sendEmail;
