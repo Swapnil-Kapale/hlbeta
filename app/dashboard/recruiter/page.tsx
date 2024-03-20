@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import axios from "axios";
 import {DrawerDialog} from "@/app/dashboard/recruiter/_components/addJobOpening";
+import sendStatusMail from "@/libs/applicarionStatusMail";
 
 
 interface JobOpening {
@@ -240,6 +241,20 @@ interface Candidate {
   , [refresh]);
   
 
+  const handleAccept = async(candidate:Candidate,jobOpenings:JobOpening) => {
+    console.log("Accept Clicked");
+    console.log(candidate);
+    console.log(jobOpenings);
+
+    sendStatusMail(candidate.document.contactInformation.email,"",candidate.document.contactInformation.firstName,jobOpenings.title,"","finalJobOffer");
+    
+  };
+
+  const handleReject = async(candidate:Candidate) => {
+    console.log("Reject Clicked");
+    console.log(candidate);
+    sendStatusMail(candidate.document.contactInformation.email,"",candidate.document.contactInformation.firstName,"","","finalReject");
+  };
 
   return (
 
@@ -577,12 +592,12 @@ interface Candidate {
                                 <div className="flex gap-2">
 
                                     <button
-                                      onClick={() => handleShowInterest(candidate)}
+                                      onClick={() => handleReject(candidate)}
                                       className="bg-red-400 text-white w-24 h-10 rounded-lg px-4 flex justify-center items-center"
                                     >Reject</button>
 
                                     <button
-                                      onClick={() => handleShowInterest(candidate)}
+                                      onClick={() => handleAccept(candidate,jobOpenings)}
                                       className="bg-green-400 text-white w-24 h-10 rounded-lg px-4 flex justify-center items-center"
                                     >Accept</button>
                                 </div>
