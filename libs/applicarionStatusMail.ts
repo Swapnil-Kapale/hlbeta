@@ -882,7 +882,7 @@ async function sendStatusMail(to, rName, cName, jobTitle, company, status)
             <td class="pad">
             <div style="color:#ffffff;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
             <p style="margin: 0; margin-bottom: 16px;">Dear ${cName}</p>
-            <p style="margin: 0;">We're excited to share some fantastic news with you! We're thrilled to inform you that you have received an offer for the position of ${jobTitle} at ${company}.
+            <p style="margin: 0;">We're excited to share some fantastic news with you! We're thrilled to inform you that you have received an offer for the position of ${jobTitle}.
             <br>
             Attached to this email, you'll find the official offer letter, outlining all the details regarding your employment. Please take some time to review the offer letter carefully. If you have any questions or need clarification on any aspect, don't hesitate to reach out to us.
             <br>
@@ -1073,7 +1073,7 @@ async function sendStatusMail(to, rName, cName, jobTitle, company, status)
             <td class="pad">
             <div style="color:#ffffff;direction:ltr;font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
             <p style="margin: 0; margin-bottom: 16px;">Dear ${cName}</p>
-            <p style="margin: 0;">We hope this email finds you well. We regret to inform you that after careful consideration, the company has chosen to move forward with other candidates for the ${jobTitle} position at ${company}.
+            <p style="margin: 0;">We hope this email finds you well. We regret to inform you that after careful consideration, the company has chosen to move forward with other candidates for the ${jobTitle} position.
             <br>
             We appreciate the time and effort you put into your application. If you have any questions or would like feedback, feel free to reach out.
             <br>
