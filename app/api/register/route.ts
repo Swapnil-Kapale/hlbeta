@@ -158,6 +158,7 @@ export async function POST(request: NextRequest) {
         projects,
         achievements,
         additionalInformation,
+        jobOpenings: [],
         userId: newUser._id,
       });
 

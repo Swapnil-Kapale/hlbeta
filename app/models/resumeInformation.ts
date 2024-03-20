@@ -69,6 +69,7 @@ const resumeInformationSchema = new Schema({
     projects: [projectSchema],
     achievements: [achievementSchema],
     additionalInformation: additionalInformationSchema,
+    jobOpenings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'JobOpening' }],
 });
 
 const ResumeInformation = mongoose.models.ResumeInformation || mongoose.model('ResumeInformation', resumeInformationSchema);

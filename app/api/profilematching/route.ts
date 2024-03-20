@@ -53,7 +53,10 @@ export async function POST(request: NextRequest) {
 
     let exp = 0
     workExperience.forEach((workexp:WorkExperience) =>{
+      if(workexp.years!=null){
         exp = Math.max(exp, workexp.years);
+      }
+        
     })
     console.log("=====================workExp : ", exp);
     
