@@ -24,7 +24,8 @@ const workExperienceSchema = new Schema({
     location: { type: String },
     startDate: { type: String },
     endDate: { type: String },
-    description: { type: String }
+    description: { type: String },
+    years: { type: Number }
 });
 
 const certificationSchema = new Schema({

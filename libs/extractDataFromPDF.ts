@@ -38,6 +38,7 @@ const extractDataFromPDF = (relativePath) => {
     ...   startDate: string;
     ...   endDate: string;
     ...   description: string;
+    ...   years: number;
     ... } 
     ...
     ... interface Certification {

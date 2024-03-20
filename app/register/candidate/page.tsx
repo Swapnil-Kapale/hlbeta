@@ -28,6 +28,7 @@ interface WorkExperience {
   startDate: string;
   endDate: string;
   description: string;
+  years: number;
 }
 
 interface Certification {
@@ -128,6 +129,7 @@ const Register = () => {
           endDate: "Present",
           description:
             "Developing scalable web applications using React and Node.js.",
+          years: 0, // Dummy years of experience
         },
         {
           jobTitle: "Intern",
@@ -137,6 +139,7 @@ const Register = () => {
           endDate: "August 2021",
           description:
             "Assisted in front-end development tasks and conducted market research.",
+          years: 0, // Dummy years of experience
         },
       ],
       skills: ["JavaScript", "React", "Node.js", "HTML", "CSS", "Python"],
@@ -781,6 +784,23 @@ const Register = () => {
                       }
                       className="mb-5 w-96"
                     />
+                    <Input
+                      placeholder="Years"
+                      value={workExperience.years}
+                      onChange={(e) =>
+                        setResumeInformation({
+                          ...resumeInformation,
+                          workExperience: resumeInformation.workExperience.map(
+                            (item, i) =>
+                              i === index
+                                ? { ...item, years: e.target.value }
+                                : item
+                          ),
+                        })
+                      }
+                      className="mb-5 w-52"
+                    />
+                      
                     {/* delete button */}
                     <button
                       onClick={() =>
