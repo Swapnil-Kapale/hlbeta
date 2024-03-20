@@ -341,7 +341,7 @@ interface Candidate {
               </div>
               <h1 className="text-black text-xl font-medium">Total Openings</h1>
               <p className="text-xl font-light">
-                <span className="font-semibold text-3xl">200</span>/200
+                <span className="font-semibold text-3xl">{jobOpenings.length}</span>/50
               </p>
             </div>
 
