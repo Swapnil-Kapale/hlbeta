@@ -14,6 +14,7 @@ interface ContactInformation {
   address: string;
 }
 
+//  confilect resolve
 interface CompanyInformation {
   companyName: string;
   companyAddress: string;
