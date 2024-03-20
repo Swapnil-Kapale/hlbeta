@@ -9,6 +9,7 @@ import User from "@/app/models/userSchema";
 import ResumeInformation from "@/app/models/resumeInformation";
 import mongoose from "mongoose";
 import RecruiterInformation from "@/app/models/recruiterScheme";
+import sendStatusMail from '@/libs/applicarionStatusMail';
 
 export async function POST(request: NextRequest) {
   try {
@@ -47,13 +48,8 @@ export async function POST(request: NextRequest) {
 
     // shantanu 
     const jobData = await JobProfile.findOne(jobId);
-
     const recruiterinformation = await RecruiterInformation.findOne(jobData.informationRef);
-
-
-  const  companyName = recruiterinformation.companyInformation;
-
-
+    const companyName = recruiterinformation.companyInformation.companyName;
 
     // find recruiterinformation collection and push the new job opening
     const userinformation = await ResumeInformation.findOne(candidateId);
@@ -68,6 +64,16 @@ export async function POST(request: NextRequest) {
 
     // Save the user
     await userinformation.save();
+
+    // Send mail to user
+    // sendStatusMail(to, rName, cName, jobTitle, company, status)
+    sendStatusMail(userinformation.contactInformation.email,
+      " ",
+      userinformation.contactInformation.firstName,
+      jobData.title,
+      companyName,
+      "interested"
+      );
 
     // Return success response
     return NextResponse.json({
