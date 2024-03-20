@@ -128,6 +128,8 @@ interface Candidate {
   }, [outOpen]);
 
 
+  const[selectedCandidate, setSelectedCandidate] = React.useState<Candidate | null>(null);
+
   const handleCardClick = async (jobOpening:JobOpening) => {
 
     setSelectedJob(jobOpening);
@@ -417,70 +419,67 @@ interface Candidate {
           <div className="flex flex-col gap-y-5 w-full">
             
             <div className="w-full h-48 bg-gradient-to-r from-purple-500 to-purple-900 flex justify-center items-center">
-              <Image src="/se.png" alt="" height={100} width={100} className="h-18 w-18 rounde-full overflow-hidden p-2 " />
+              <Image src="/se.png" alt="" height={100} width={100} className="relative top-24 h-28 w-28 rounded-full overflow-hidden p-2 bg-white " />
             </div>
 
             {/* job details */}
             <div className="flex gap-x-4 ">
-              <div className="job-details w-full bg-white rounded-lg shadow-md overflow-hidden">
-                <h1 className="text-3xl font-semibold mb-6 text-gray-800 px-6 py-4 bg-gray-100 border-b border-gray-200">
-                  Job Details
-                </h1>
+              <div className="p-10 job-details w-full bg-white rounded-lg shadow-md overflow-hidden">
+               
+                <h1 className="text-5xl mb-10 font-bold text-center">{selectedJob?.title}</h1>
 
-                <div className="grid grid-cols-2 gap-8 px-6 py-8">
-                  <div>
-                <h1 className="text-2xl mb-4 font-semibold">{selectedJob?.title}</h1>
-                    <h2 className="text-xl font-semibold text-gray-800">
-                      Location
-                    </h2>
-                    <p className="text-lg text-gray-600 mt-2">
-                      {selectedJob?.location}
+                {/* desciption */}
+
+                <h2 className="text-2xl font-bold">Description <br /></h2>
+                <p className="text-gray-800 text-xl mb-4">
+                  {selectedJob?.description}
+                </p>
+
+                <div className="flex gap-20 text-lg">
+
+                  <div className="flex flex-col gap-2">
+                    <p>
+                      <span className="text-2xl font-bold">Type:</span> {selectedJob?.type}
                     </p>
 
-                    <h2 className="text-xl font-semibold text-gray-800 mt-6">
-                      Role
-                    </h2>
-                    <p className="text-lg text-gray-600 mt-2">
-                      {selectedJob?.role}
+                    <p>
+                      <span className="text-2xl font-bold">Location:</span> {selectedJob?.location}
                     </p>
 
-                    <h2 className="text-xl font-semibold text-gray-800 mt-6">
-                      Status
-                    </h2>
-                    <p className="text-lg text-gray-600 mt-2">
-                      {selectedJob?.status}
+                    <p>
+                      <span className="text-2xl font-bold">Role:</span> {selectedJob?.role}
                     </p>
+
+                  </div> 
+                  <div className="flex flex-col gap-2">
+                    <p>
+                      <span className="text-2xl font-bold">Experience:</span> {selectedJob?.experience} years
+                    </p>
+
+                    <p>
+                      <span className="text-2xl font-bold">Salary:</span> {selectedJob?.salary}
+                    </p>
+
+                    <p>
+                      <span className="text-2xl font-bold">Status:</span> {selectedJob?.status}
+                    </p>
+
                   </div>
-                  <div>
-                    <h2 className="text-xl font-semibold text-gray-800">
-                      Skills
-                    </h2>
-                    <p className="text-lg text-gray-600 mt-2">
-                      {selectedJob?.skills.join(", ")}
-                    </p>
 
-                    <h2 className="text-xl font-semibold text-gray-800 mt-6">
-                      Applicants
-                    </h2>
-                    <p className="text-lg text-gray-600 mt-2">
-                      40
-                    </p>
 
-                    <h2 className="text-xl font-semibold text-gray-800 mt-6">
-                      Created At
-                    </h2>
-                    <p className="text-lg text-gray-600 mt-2">
-                      10
-                    </p>
-                  </div>
+
                 </div>
+
+
+
+
 
               </div>
 
               
             </div>
 
-              <div className="mx-3 w-1/2  rounded-2xl bg-slate-200">
+              <div className="mx-3 w-full  rounded-2xl bg-[#fff7f7]">
                 <h1 className="text-3xl font-semibold text-gray-800 mb-6 px-6 py-4 bg-gray-100 border-b border-gray-200 rounded-2xl">
                   AI Match Summary
                 </h1>
