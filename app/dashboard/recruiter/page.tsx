@@ -222,6 +222,7 @@ interface Candidate {
 
     axios.post("/api/notify/", requestBody).then((response) => {
       console.log(response);
+      setRefresh(!refresh);
     }
     ).catch((error) => {
       console.log(error);
@@ -232,6 +233,13 @@ interface Candidate {
 
     // 
   };
+
+  useEffect(() => {
+    fetchData();
+  }
+  , [refresh]);
+  
+
 
   return (
 
@@ -411,8 +419,8 @@ interface Candidate {
       {/* load created job opening cards
        */}
 
-      <div className="flex mt-52 mx-10 gap-x-4 justify-center items-center">
-        <div className="flex flex-col justify-between p-10 w-1/4 gap-y-5 overflow-scroll max-h-[1000px]">
+      <div className="flex mt-52 mx-10 gap-x-4 justify-center ">
+        <div className="flex flex-col  p-10 w-1/4 gap-y-5 overflow-scroll max-h-[1000px]">
           {jobOpenings.map((jobOpening) => (
             <div
               key={jobOpening.id} // Adding a unique key for each card
@@ -522,16 +530,18 @@ interface Candidate {
 
 
               <div className="bg-white py-10">
-              <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
-                <div className="max-w-2xl">
-                  <h2 className="text-3xl mb-10 font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <div className="">
+                <div className="max-w-2xl mb-10">
+                  <h2 className="text-3xl  font-bold tracking-tight text-gray-900 sm:text-4xl">
                     Already Matched
                   </h2>
+                  <span className="">Click On Card To Get AI Summary</span>
+
                 </div>
               </div>
                 <ul
                   role="list"
-                  className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2 "
+                  className="grid grid-cols-3 "
                 >
                   {
                     interestedCandidates.map((candidate) => (
@@ -564,12 +574,20 @@ interface Candidate {
                                   Skill Score: {candidate.scorePercentage}%
                                 </p>
                         
-                            
+                                <div className="flex gap-2">
+
+                                    <button
+                                      onClick={() => handleShowInterest(candidate)}
+                                      className="bg-red-400 text-white w-24 h-10 rounded-lg px-4 flex justify-center items-center"
+                                    >Reject</button>
+
+                                    <button
+                                      onClick={() => handleShowInterest(candidate)}
+                                      className="bg-green-400 text-white w-24 h-10 rounded-lg px-4 flex justify-center items-center"
+                                    >Accept</button>
+                                </div>
                                   {/* show interest button for candidat to call function */}
-                                  <button
-                                    onClick={() => handleShowInterest(candidate)}
-                                    className="bg-black text-white w-44 h-10 rounded-lg px-4 flex justify-center items-center"
-                                  >Show Interest</button>
+
                               </div>
                             </div>
                           </li>
@@ -582,16 +600,18 @@ interface Candidate {
             </div>  
 
             <div className="bg-white py-10">
-              <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
-                <div className="max-w-2xl">
-                  <h2 className="text-3xl mb-10 font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <div className="">
+                <div className="max-w-2xl mb-10">
+                  <h2 className="text-3xl  font-bold tracking-tight text-gray-900 sm:text-4xl">
                     Potential Matches
                   </h2>
+                  <span className="mb-10">Click On Card To Get AI Summary</span>
+
                 </div>
               </div>
                 <ul
                   role="list"
-                  className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2 "
+                  className="grid gap-x-8 gap-y-12 sm:grid-cols-3 sm:gap-y-16 xl:col-span-2 "
                 >
                   {
                     candidates.map((candidate) => (
