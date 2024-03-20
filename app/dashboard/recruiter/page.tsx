@@ -121,6 +121,8 @@ interface Candidate {
   
   const [candidates, setCandidates] = React.useState<Candidate[]>([]);
 
+  const [interestedCandidates, setInterestedCandidates] = React.useState<Candidate[]>([]);
+
   const [outOpen, setOutOpen] = React.useState(false);
 
   useEffect(() => {
@@ -144,7 +146,7 @@ interface Candidate {
     else {
       console.log(response.data.topDocuments);
       setCandidates(response.data.topDocuments);
-
+      setInterestedCandidates(response.data.alreadyMatchedDocuments);
     }
   };
 
@@ -162,7 +164,7 @@ interface Candidate {
 
     // Construct the prompt string
     const prompt =
-    "This is candidate profile and job description. Please compare them and give creative and interesting summary of match between them in about 20 lines (pointwise). Use plain html for styling, not even CSS, compulsarily.Use html headings, bold text, breaks (NO MARKDOWN) and make the match profile interesting.In the end add simple 'MATCH SCORE' rating match out of 10.\n" +
+    "This is candidate profile and job description. Please compare them and give creative and interesting summary of match between them in about 20 lines (pointwise). Use plain html(html should have 4 parts why match,why select,why reject and summary with marks use one fix format point as h1 and ) for styling, not even CSS, compulsarily.Use html headings, bold text, breaks (NO MARKDOWN) and make the match profile interesting.In the end add simple 'MATCH SCORE' rating match out of 10.\n" +
     "candidate profile: " + candistring + "\n Job Description: " + jobstring;
     
     const requestBody = {
@@ -201,10 +203,11 @@ interface Candidate {
       console.log(error);
     });
   };
+
+  const [refresh, setRefresh] = React.useState(false);
   
   const handleShowInterest = async(candidate:Candidate) => {
     console.log("Show Interest Clicked");
-  
 
     const candidateId = candidate.document._id;
     const jobId = selectedJob?._id;
@@ -448,7 +451,7 @@ interface Candidate {
           <div className="flex flex-col gap-y-5 w-full">
             
             <div className="w-full h-48 bg-gradient-to-r from-purple-500 to-purple-900 flex justify-center items-center">
-              <Image src="/se.png" alt="" height={100} width={100} className="relative top-24 h-28 w-28 rounded-full overflow-hidden p-2 bg-white " />
+              <Image src="/se.png" alt="" height={200} width={200} className="relative top-24 h-28 w-28 rounded-full overflow-hidden p-2 bg-white " />
             </div>
 
             {/* job details */}
@@ -517,6 +520,67 @@ interface Candidate {
                 ></div>
               </div>
 
+
+              <div className="bg-white py-10">
+              <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
+                <div className="max-w-2xl">
+                  <h2 className="text-3xl mb-10 font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    Already Matched
+                  </h2>
+                </div>
+              </div>
+                <ul
+                  role="list"
+                  className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2 "
+                >
+                  {
+                    interestedCandidates.map((candidate) => (
+
+                      <>
+
+                          <li key={candidate.document.contactInformation.firstName} onClick={() => handleCandidateClick(candidate)} className="hover:cursor-pointer">
+                            <div className="flex h-48 w-96 items-center gap-x-6 bg-slate-100 p-4 rounded-lg">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="60"
+                                height="60"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  fill="currentColor"
+                                  d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 6.39A9.973 9.973 0 0 0 17.42 10c.78 0 1.53-.09 2.25-.26c.21.71.33 1.47.33 2.26c0 4.41-3.59 8-8 8c-3 0-5.61-1.66-7-4.11L6.75 14v-1A1.25 1.25 0 0 1 8 11.75A1.25 1.25 0 0 1 9.25 13v1H12m4-2.25A1.25 1.25 0 0 0 14.75 13A1.25 1.25 0 0 0 16 14.25A1.25 1.25 0 0 0 17.25 13A1.25 1.25 0 0 0 16 11.75Z"
+                                />
+                              </svg>
+                              <div className="flex flex-col gap-2">
+                                <h3 className="text-xl font-semibold leading-7 tracking-tight text-gray-900">
+                                  {candidate.document.contactInformation.firstName}{" "}{candidate.document.contactInformation.lastName}
+                                </h3>
+                
+                                <p className="text-sm font-semibold leading-6 text-slate-600">
+                                  {candidate.document.contactInformation.address}
+                                </p>
+
+                                <p className="text-sm font-semibold leading-6 text-slate-600">
+                                  Skill Score: {candidate.scorePercentage}%
+                                </p>
+                        
+                            
+                                  {/* show interest button for candidat to call function */}
+                                  <button
+                                    onClick={() => handleShowInterest(candidate)}
+                                    className="bg-black text-white w-44 h-10 rounded-lg px-4 flex justify-center items-center"
+                                  >Show Interest</button>
+                              </div>
+                            </div>
+                          </li>
+
+                      </>
+                    ))
+                  }
+
+                </ul>
+            </div>  
+
             <div className="bg-white py-10">
               <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
                 <div className="max-w-2xl">
@@ -535,7 +599,7 @@ interface Candidate {
                       <>
 
                           <li key={candidate.document.contactInformation.firstName} onClick={() => handleCandidateClick(candidate)} className="hover:cursor-pointer">
-                            <div className="flex h-48  items-center gap-x-6 bg-slate-100 p-4 rounded-lg">
+                            <div className="flex h-48 w-96 items-center gap-x-6 bg-slate-100 p-4 rounded-lg">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="60"
@@ -547,8 +611,7 @@ interface Candidate {
                                   d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 6.39A9.973 9.973 0 0 0 17.42 10c.78 0 1.53-.09 2.25-.26c.21.71.33 1.47.33 2.26c0 4.41-3.59 8-8 8c-3 0-5.61-1.66-7-4.11L6.75 14v-1A1.25 1.25 0 0 1 8 11.75A1.25 1.25 0 0 1 9.25 13v1H12m4-2.25A1.25 1.25 0 0 0 14.75 13A1.25 1.25 0 0 0 16 14.25A1.25 1.25 0 0 0 17.25 13A1.25 1.25 0 0 0 16 11.75Z"
                                 />
                               </svg>
-                              <div>
-                                <p>{candidate.document._id}</p>
+                              <div className="flex flex-col gap-2">
                                 <h3 className="text-xl font-semibold leading-7 tracking-tight text-gray-900">
                                   {candidate.document.contactInformation.firstName}{" "}{candidate.document.contactInformation.lastName}
                                 </h3>
@@ -565,7 +628,7 @@ interface Candidate {
                                   {/* show interest button for candidat to call function */}
                                   <button
                                     onClick={() => handleShowInterest(candidate)}
-                                    className="bg-[#e11d48] text-white w-28 rounded-lg px-4 flex justify-center items-center"
+                                    className="bg-black text-white w-44 h-10 rounded-lg px-4 flex justify-center items-center"
                                   >Show Interest</button>
                               </div>
                             </div>
@@ -578,6 +641,7 @@ interface Candidate {
                 </ul>
             </div>
 
+          
           </div>
         </div>
       </div>

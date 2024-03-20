@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "@/libs/mongodb";
+import mongoose from "mongoose";
 const { MongoClient } = require("mongodb");
 
 interface WorkExperience {
@@ -71,11 +72,15 @@ export async function POST(request: NextRequest) {
         // Calculate the score as a percentage
         const totalSkills = skillArray.length;
         const scorePercentage = (matchedSkills / totalSkills) * 100;
-
+         
+        
+        const searchid = new mongoose.Types.ObjectId(body._id); 
         // i want to see that if the jobbody._id is present in document.jobOpenings array then add it in alreadyMatchedDocuments array other wise push in matched documents array
-        if (document.jobOpenings.includes(body._id)) {
+        if (document.jobOpenings.some((jobId: any) => jobId.equals(searchid))) {
+          console.log("Already Matched");
           alreadyMatchedDocuments.push({ document, scorePercentage });
         } else {
+          console.log("Not Matched");
           matchedDocuments.push({ document, scorePercentage });
         }
 
@@ -93,6 +98,7 @@ export async function POST(request: NextRequest) {
     const topDocuments = matchedDocuments.slice(0, 5);
 
     console.log(topDocuments);
+    console.log(alreadyMatchedDocuments);
 
     return NextResponse.json({
       status: 200,
