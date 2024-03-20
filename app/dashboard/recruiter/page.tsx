@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import axios from "axios";
 import {DrawerDialog} from "@/app/dashboard/recruiter/_components/addJobOpening";
-import sendStatusMail from "@/libs/applicarionStatusMail";
+// import sendStatusMail from "@/libs/applicarionStatusMail";
 
 
 interface JobOpening {
@@ -246,7 +246,7 @@ interface Candidate {
     console.log(candidate);
     console.log(jobOpenings);
 
-    sendStatusMail(candidate.document.contactInformation.email,"",candidate.document.contactInformation.firstName,jobOpenings.title,"","finalJobOffer");
+    // sendStatusMail(candidate.document.contactInformation.email,"",candidate.document.contactInformation.firstName,jobOpenings.title,"","finalJobOffer");
     
   };
 
