@@ -1,46 +1,58 @@
-// api/addopening/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getDataFromToken } from '@/helper/getDataFromToken';
 import JobProfile from '@/app/models/jobDescriptionSchema';
 import connectMongoDB from "@/libs/mongodb";
 import User from '@/app/models/userSchema';
 import ResumeInformation from '@/app/models/resumeInformation';
+import mongoose from 'mongoose';
 
 export async function POST(request: NextRequest) {
 
     console.log("show Notifications ======================================================");
     
-  try {
+    try {
+        // connect to the database
+        await connectMongoDB();
 
-    // connect to the database
-    await connectMongoDB();
+        // Assuming tempid is the ID string you have
+        const body = await request.json();
 
-    // const { userId } = getDataFromToken(request);
-    // console.log("userId",userId);
+        console.log("body :",body);
+        
+        const tempid = body.id;
 
-    // const userId = 
+        // Convert tempid to ObjectId
+        const candidateId = new mongoose.Types.ObjectId(tempid);
 
-    // find given user id inside recruiterinformation collection
-    const user = await User.findById(userId);
-    console.log("user",user.informationRef);
+        // Find user by ID
+        const user = await User.findById(candidateId);
+        console.log("user", user.informationRef);
 
-    // find recruiterinformation collection and push the new job opening
-    const userinformation = await ResumeInformation.findOne(user.informationRef);
-   
-    console.log(userinformation);
-    
+        // Find recruiterinformation collection and push the new job opening
+        const jobArray = [];
+        const userinformation = await ResumeInformation.findOne(user.informationRef);
+        
+        console.log("********", userinformation.jobOpenings);
 
+        // Loop through each job opening
+        for (const element of userinformation.jobOpenings) {
+            // Find job profile by ID
+            const jobDescription = await JobProfile.findOne(element);
+            
+            // Push job description to the array
+            jobArray.push(jobDescription);
+        }
 
+        console.log("Job Array:", jobArray);
 
-    // Return success response
-    return NextResponse.json({ status: 201, message: "" });
-  } catch (error) {
-    // Log the error and return an error response
-    console.error("Error fetching job opening:", error);
-    return NextResponse.json({
-      status: 500,
-      error: "Error fetching job opening"
-    });
-  }
+        // Return success response
+        return NextResponse.json({ status: 200, message: "Job openings fetched successfully", jobData : jobArray });
+    } catch (error) {
+        // Log the error and return an error response
+        console.error("Error fetching job openings:", error);
+        return NextResponse.json({
+            status: 500,
+            error: "Error fetching job openings"
+        });
+    }
 }
