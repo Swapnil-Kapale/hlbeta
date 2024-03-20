@@ -5,6 +5,7 @@ import connectMongoDB from "@/libs/mongodb";
 import User from '@/app/models/userSchema';
 import ResumeInformation from '@/app/models/resumeInformation';
 import mongoose from 'mongoose';
+import RecruiterInformation from '@/app/models/recruiterScheme';
 
 export async function POST(request: NextRequest) {
 
@@ -20,6 +21,7 @@ export async function POST(request: NextRequest) {
         console.log("body :",body);
         
         const tempid = body.id;
+        // const tempid = "65fa8916ac270a78431b9ed0";
 
         // Convert tempid to ObjectId
         const candidateId = new mongoose.Types.ObjectId(tempid);
@@ -38,9 +40,23 @@ export async function POST(request: NextRequest) {
         for (const element of userinformation.jobOpenings) {
             // Find job profile by ID
             const jobDescription = await JobProfile.findOne(element);
+
+            const user1 = jobDescription.user;
+
+            const rc1 = await User.findOne(user1);
+
+            const rcinfo1 = rc1.informationRef;
+
+            const recuriterinformation = await RecruiterInformation.findOne(rcinfo1);
+
+            const companyInfo  = recuriterinformation.companyInformation;
+
+
+
+
             
             // Push job description to the array
-            jobArray.push(jobDescription);
+            jobArray.push({jobDescription:jobDescription, companyInfo:companyInfo});
         }
 
         console.log("Job Array:", jobArray);
