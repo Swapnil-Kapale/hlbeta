@@ -978,6 +978,6 @@ const jobTitle = "CEO";
 const company = "Apple";
 const status = "interested";
 
-sendStatusMail(to, rName, cName, jobTitle, company, status);
+// sendStatusMail(to, rName, cName, jobTitle, company, status);
 
-// export default sendStatusMail;
+export default sendStatusMail;

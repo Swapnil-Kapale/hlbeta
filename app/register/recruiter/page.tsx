@@ -301,6 +301,53 @@ const RecruiterRegisterPage = () => {
           </div>
         </div>
 
+        {/* /////// */}
+
+        <div className="flex border w-full border-zinc-100 mb-10 shadow-lg">
+          <div className="w-48 p-10 h-full border-r-zinc-100 border-2 mb-10 flex justify-center items-center bg-zinc-700">
+            <h1 className="bold text-2xl font-bold text-white">
+              Select Plan
+            </h1>
+          </div>
+
+          <div className="flex flex-col gap-2">
+          <div className="flex flex-row p-10 gap-10">
+            <label className="flex flex-col justify-between bg-white rounded-lg shadow-md p-6 cursor-pointer h-60 w-60 hover:bg-gray-200">
+              <div className="flex flex-col items-center gap-10">
+                <span className="text-gray-800 font-semibold mt-5 text-lg">Monthly Plan</span>
+                <span className="text-gray-800 font-semibold text-lg">$3999</span>
+              </div>
+              <input type="radio" className="form-radio h-6 w-6 text-zinc-700" name="plan" value="monthly" />
+            </label>
+
+            <label className="flex flex-col justify-between bg-white rounded-lg shadow-md p-6 cursor-pointer h-60 w-60 hover:bg-gray-200">
+              <div className="flex flex-col items-center gap-10">
+                <span className="text-gray-800 font-semibold mt-5 text-lg">Yearly Plan</span>
+                <span className="text-gray-800 font-semibold text-lg">$8999</span>
+              </div>
+              <input type="radio" className="form-radio h-6 w-6 text-zinc-700" name="plan" value="yearly" />
+            </label>
+
+            <label className="flex flex-col justify-between bg-white rounded-lg shadow-md p-6 cursor-pointer h-60 w-60 hover:bg-gray-200">
+              <div className="flex flex-col items-center gap-10">
+                <span className="text-gray-800 font-semibold mt-5 text-lg">Lifetime Plan</span>
+                <span className="text-gray-800 font-semibold text-lg">$14999</span>
+              </div>
+              <input type="radio" className="form-radio h-6 w-6 text-zinc-700" name="plan" value="lifetime" />
+            </label>
+          </div>
+          
+          <button
+            className="bg-black h-[40px] w-[200px] text-white px-2 rounded-md m-10">
+            <a href="https://buy.stripe.com/test_8wMcPO6fn5gq8cofYY" target="blank">
+            Pay Fees
+            </a>
+          </button>
+          </div>
+        </div>
+
+        {/* /////// */}
+
         {/* security */}
         <div className="flex border w-full border-zinc-100 mb-10 shadow-lg">
           <div className="w-48 p-10 h-full border-r-zinc-100 border-2 mb-10 flex justify-center items-center bg-zinc-700">
@@ -352,6 +399,7 @@ const RecruiterRegisterPage = () => {
             Register
           </button>
         </div>
+
       </div>
     </div>
   );
