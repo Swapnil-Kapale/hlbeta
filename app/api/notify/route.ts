@@ -48,7 +48,10 @@ export async function POST(request: NextRequest) {
     console.log("userInformation:", userinformation);
 
     // here i want to checck is jobid already present in jobopening arrray if not then push otherwise dont push
-    userinformation.jobOpenings.push(jobId);
+    if (!userinformation.jobOpenings.includes(jobId)) {
+        // If jobId is not present, push it to the array
+        userinformation.jobOpenings.push(jobId);
+      }
 
     // Save the user
     await userinformation.save();

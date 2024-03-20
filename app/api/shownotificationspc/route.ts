@@ -53,13 +53,13 @@ export async function GET(request: NextRequest) {
 
             
             // Push job description to the array
-            jobArray.push({jobDescription:jobDescription, companyInfo:companyInfo, userinformation: userinformation});
+            jobArray.push({jobDescription:jobDescription, companyInfo:companyInfo});
         }
 
         console.log("Job Array:", jobArray);
 
         // Return success response
-        return NextResponse.json({ status: 200, message: "Job openings fetched successfully", jobData : jobArray });
+        return NextResponse.json({ status: 200, message: "Job openings fetched successfully", jobData : jobArray , userinformation:userinformation});
     } catch (error) {
         // Log the error and return an error response
         console.error("Error fetching job openings:", error);
