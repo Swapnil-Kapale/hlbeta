@@ -50,6 +50,7 @@ interface Candidate {
       startDate: string | null;
       endDate: string | null;
       description: string;
+      years: number;
       _id: string;
     }[];
     skills: string[];
@@ -519,6 +520,7 @@ interface Candidate {
                                 />
                               </svg>
                               <div>
+                                <p>{candidate.document._id}</p>
                                 <h3 className="text-xl font-semibold leading-7 tracking-tight text-gray-900">
                                   {candidate.document.contactInformation.firstName}{" "}{candidate.document.contactInformation.lastName}
                                 </h3>
