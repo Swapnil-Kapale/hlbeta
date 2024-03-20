@@ -7,6 +7,7 @@ import connectMongoDB from "@/libs/mongodb";
 import User from '@/app/models/userSchema';
 // import RecruiterInformation from '@/app/models/recruiterScheme';
 import ResumeInformation from '@/app/models/resumeInformation';
+import mongoose from 'mongoose';
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,18 +35,27 @@ export async function POST(request: NextRequest) {
     });
    
 
-    const candidateId = body.id;
+    const candidateId = new mongoose.Types.ObjectId(body.candidateId);
+    console.log(candidateId);
+
+    const jobId = new mongoose.Types.ObjectId(body.jobId);
+    console.log(jobId);
 
 
     // find recruiterinformation collection and push the new job opening
     const userinformation = await ResumeInformation.findOne(candidateId);
-    userinformation.jobOpenings.push(newJobOpening);
+
+    userinformation.jobOpenings.push(jobId);
+
+
+
+
 
     // Save the user
     await userinformation.save();
 
     // Return success response
-    return NextResponse.json({ status: 201, message: "Job opening added successfully" });
+    return NextResponse.json({ status: 200, message: "job added successfully" });
   } catch (error) {
     // Log the error and return an error response
     console.error("Error adding job opening:", error);

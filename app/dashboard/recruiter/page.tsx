@@ -8,6 +8,7 @@ import {DrawerDialog} from "@/app/dashboard/recruiter/_components/addJobOpening"
 
 
 interface JobOpening {
+  _id: string;
   id: string;
   title: string;
   type: string;
@@ -201,6 +202,33 @@ interface Candidate {
     });
   };
   
+  const handleShowInterest = async(candidate:Candidate) => {
+    console.log("Show Interest Clicked");
+  
+
+    const candidateId = candidate.document._id;
+    const jobId = selectedJob?._id;
+
+    console.log("Candidate ID:", candidateId);
+    console.log("Job ID:", jobId);
+
+    const requestBody = {
+      candidateId: candidateId,
+      jobId: jobId,
+    };
+
+    axios.post("/api/notify/", requestBody).then((response) => {
+      console.log(response);
+    }
+    ).catch((error) => {
+      console.log(error);
+    });
+
+
+    setSelectedCandidate(candidate);
+
+    // 
+  };
 
   return (
 
@@ -533,10 +561,12 @@ interface Candidate {
                                   Skill Score: {candidate.scorePercentage}%
                                 </p>
                         
-                                <button className="bg-black h-[40px] w-[150px] rounded-lg px-2 *: mt-2 text-white"
-                                >
-                                  Show Interest
-                                </button>
+                            
+                                  {/* show interest button for candidat to call function */}
+                                  <button
+                                    onClick={() => handleShowInterest(candidate)}
+                                    className="bg-[#e11d48] text-white w-28 rounded-lg px-4 flex justify-center items-center"
+                                  >Show Interest</button>
                               </div>
                             </div>
                           </li>
