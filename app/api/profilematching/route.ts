@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import connectMongoDB from "@/libs/mongodb";
 const { MongoClient } = require("mongodb");
 
+interface WorkExperience {
+  jobTitle: string;
+  company: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  years: number;
+}
+
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -14,9 +24,13 @@ export async function POST(request: NextRequest) {
     console.log("Called");
   
     const body = await request.json();
-    console.log(body);
+    console.log("Job Body :",body);
   
-    const skillArray = body.skills
+    const skillArray = body.skills;
+    // const skillArray = ['C','C++','Java','CSS','HTML', 'Flutter'];
+
+    const experience = body.experience;
+    // const experience = 1;
 
     // Connect to the MongoDB Atlas cluster
     await client.connect();
@@ -35,20 +49,32 @@ export async function POST(request: NextRequest) {
     // Process each document here
     const documentSkills = document.skills;
 
-      // Count matched skills for the current document
-      let matchedSkills = 0;
-      documentSkills.forEach((skill: string) => {
-        if (skillArray.includes(skill)) {
-          matchedSkills++;
-        }
-      });
+    const workExperience = document.workExperience;
 
-      // Calculate the score as a percentage
-      const totalSkills = skillArray.length;
-      const scorePercentage = (matchedSkills / totalSkills) * 100;
+    let exp = 0
+    workExperience.forEach((workexp:WorkExperience) =>{
+        exp = Math.max(exp, workexp.years);
+    })
+    console.log("=====================workExp : ", exp);
+    
 
-      // Push the document and its matching score to the array
-      matchedDocuments.push({ document, scorePercentage });
+     if(exp >= experience){
+       // Count matched skills for the current document
+       let matchedSkills = 0;
+       documentSkills.forEach((skill: string) => {
+         if (skillArray.includes(skill)) {
+           matchedSkills++;
+         }
+       });
+ 
+       // Calculate the score as a percentage
+       const totalSkills = skillArray.length;
+       const scorePercentage = (matchedSkills / totalSkills) * 100;
+ 
+       // Push the document and its matching score to the array
+       matchedDocuments.push({ document, scorePercentage });
+     }
+
     });
 
     // Sort the array based on the matching score in descending order

@@ -39,6 +39,7 @@ interface WorkExperience {
   startDate: string;
   endDate: string;
   description: string;
+  years: number;
 }
 
 interface Certification {

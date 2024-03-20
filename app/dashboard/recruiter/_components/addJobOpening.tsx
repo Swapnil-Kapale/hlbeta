@@ -34,16 +34,16 @@ export function DrawerDialog(params: any) {
   
   const [addJobOpening, setAddJobOpening] = React.useState<JobOpening>(
     {
-      id: "",
-      title: "",
-      type: "",
-      location: "",
-      description: "",
-      role: "",
-      skills: [],
-      experience: 0,
-      salary: "",
-      status: ""
+      id:"JB-XXXX",
+      title:"Softeware Developer",
+      type:"Full Time",
+      location:"Pune",
+      description:"Software Developer",
+      role:"Software Developer",
+      skills:["React","Node","Express"],
+      experience:2,
+      salary:"$1000-$2000",
+      status:"Open"
     }
   );
 
