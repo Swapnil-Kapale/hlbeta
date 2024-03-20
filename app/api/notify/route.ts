@@ -8,6 +8,7 @@ import User from "@/app/models/userSchema";
 // import RecruiterInformation from '@/app/models/recruiterScheme';
 import ResumeInformation from "@/app/models/resumeInformation";
 import mongoose from "mongoose";
+import RecruiterInformation from "@/app/models/recruiterScheme";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,6 +18,8 @@ export async function POST(request: NextRequest) {
     // Get the request body
     const body = await request.json();
     console.log("************************************", body);
+
+
 
     //     candidateId: '65fa8916ac270a78431b9ed3',
     //   jobId: '65fa8c20ac270a78431b9f56'
@@ -41,6 +44,16 @@ export async function POST(request: NextRequest) {
 
     const jobId = new mongoose.Types.ObjectId(body.jobId);
     console.log(jobId);
+
+    // shantanu 
+    const jobData = await JobProfile.findOne(jobId);
+
+    const recruiterinformation = await RecruiterInformation.findOne(jobData.informationRef);
+
+
+  const  companyName = recruiterinformation.companyInformation;
+
+
 
     // find recruiterinformation collection and push the new job opening
     const userinformation = await ResumeInformation.findOne(candidateId);
