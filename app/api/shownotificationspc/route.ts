@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
 
             
             // Push job description to the array
-            jobArray.push({jobDescription:jobDescription, companyInfo:companyInfo});
+            jobArray.push({jobDescription:jobDescription, companyInfo:companyInfo, userinformation: userinformation});
         }
 
         console.log("Job Array:", jobArray);

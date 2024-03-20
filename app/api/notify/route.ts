@@ -1,27 +1,25 @@
 // api/addopening/route.ts
 
-import { NextRequest, NextResponse } from 'next/server';
-import { getDataFromToken } from '@/helper/getDataFromToken';
-import JobProfile from '@/app/models/jobDescriptionSchema';
+import { NextRequest, NextResponse } from "next/server";
+import { getDataFromToken } from "@/helper/getDataFromToken";
+import JobProfile from "@/app/models/jobDescriptionSchema";
 import connectMongoDB from "@/libs/mongodb";
-import User from '@/app/models/userSchema';
+import User from "@/app/models/userSchema";
 // import RecruiterInformation from '@/app/models/recruiterScheme';
-import ResumeInformation from '@/app/models/resumeInformation';
-import mongoose from 'mongoose';
+import ResumeInformation from "@/app/models/resumeInformation";
+import mongoose from "mongoose";
 
 export async function POST(request: NextRequest) {
   try {
-
     // connect to the database
     await connectMongoDB();
 
     // Get the request body
     const body = await request.json();
-    console.log("************************************",body);
+    console.log("************************************", body);
 
-//     candidateId: '65fa8916ac270a78431b9ed3',
-//   jobId: '65fa8c20ac270a78431b9f56' 
-    
+    //     candidateId: '65fa8916ac270a78431b9ed3',
+    //   jobId: '65fa8c20ac270a78431b9f56'
 
     // Create a new job opening
     const newJobOpening = new JobProfile({
@@ -35,9 +33,8 @@ export async function POST(request: NextRequest) {
       experience: body.experience,
       salary: body.salary,
       status: body.status,
-      date: Date.now()
+      date: Date.now(),
     });
-   
 
     const candidateId = new mongoose.Types.ObjectId(body.candidateId);
     console.log(candidateId);
@@ -45,30 +42,28 @@ export async function POST(request: NextRequest) {
     const jobId = new mongoose.Types.ObjectId(body.jobId);
     console.log(jobId);
 
-
     // find recruiterinformation collection and push the new job opening
     const userinformation = await ResumeInformation.findOne(candidateId);
 
     console.log("userInformation:", userinformation);
-    
 
+    // here i want to checck is jobid already present in jobopening arrray if not then push otherwise dont push
     userinformation.jobOpenings.push(jobId);
-
-
-
-
 
     // Save the user
     await userinformation.save();
 
     // Return success response
-    return NextResponse.json({ status: 200, message: "job added successfully" });
+    return NextResponse.json({
+      status: 200,
+      message: "job added successfully",
+    });
   } catch (error) {
     // Log the error and return an error response
     console.error("Error adding job opening:", error);
     return NextResponse.json({
       status: 500,
-      error: "Error adding job opening"
+      error: "Error adding job opening",
     });
   }
 }
