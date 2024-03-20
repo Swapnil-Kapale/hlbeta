@@ -19,13 +19,12 @@ const client = new MongoClient(uri, {
 });
 
 export async function POST(request: NextRequest) {
-  
   try {
     console.log("Called");
-  
+
     const body = await request.json();
-    console.log("Job Body :",body);
-  
+    console.log("Job Body :", body);
+
     const skillArray = body.skills;
     // const skillArray = ['C','C++','Java','CSS','HTML', 'Flutter'];
 
@@ -42,46 +41,53 @@ export async function POST(request: NextRequest) {
     const cursor = collection.find();
 
     // Array to store documents with matching score
-    const matchedDocuments:any = [];
+    const matchedDocuments: any = [];
+    const alreadyMatchedDocuments: any = [];
 
     // Iterate over the cursor and process each document
     await cursor.forEach((document: any) => {
-    // Process each document here
-    const documentSkills = document.skills;
+      // Process each document here
+      const documentSkills = document.skills;
 
-    const workExperience = document.workExperience;
+      const workExperience = document.workExperience;
 
-    let exp = 0
-    workExperience.forEach((workexp:WorkExperience) =>{
-      if(workexp.years!=null){
-        exp = Math.max(exp, workexp.years);
+      let exp = 0;
+      workExperience.forEach((workexp: WorkExperience) => {
+        if (workexp.years != null) {
+          exp = Math.max(exp, workexp.years);
+        }
+      });
+      console.log("=====================workExp : ", exp);
+
+      if (exp >= experience) {
+        // Count matched skills for the current document
+        let matchedSkills = 0;
+        documentSkills.forEach((skill: string) => {
+          if (skillArray.includes(skill)) {
+            matchedSkills++;
+          }
+        });
+
+        // Calculate the score as a percentage
+        const totalSkills = skillArray.length;
+        const scorePercentage = (matchedSkills / totalSkills) * 100;
+
+        // i want to see that if the jobbody._id is present in document.jobOpenings array then add it in alreadyMatchedDocuments array other wise push in matched documents array
+        if (document.jobOpenings.includes(body._id)) {
+          alreadyMatchedDocuments.push({ document, scorePercentage });
+        } else {
+          matchedDocuments.push({ document, scorePercentage });
+        }
+
+        //   matchedDocuments.push({ document, scorePercentage });
       }
-        
-    })
-    console.log("=====================workExp : ", exp);
-    
-
-     if(exp >= experience){
-       // Count matched skills for the current document
-       let matchedSkills = 0;
-       documentSkills.forEach((skill: string) => {
-         if (skillArray.includes(skill)) {
-           matchedSkills++;
-         }
-       });
- 
-       // Calculate the score as a percentage
-       const totalSkills = skillArray.length;
-       const scorePercentage = (matchedSkills / totalSkills) * 100;
- 
-       // Push the document and its matching score to the array
-       matchedDocuments.push({ document, scorePercentage });
-     }
-
     });
 
     // Sort the array based on the matching score in descending order
     matchedDocuments.sort((a, b) => b.scorePercentage - a.scorePercentage);
+    alreadyMatchedDocuments.sort(
+      (a, b) => b.scorePercentage - a.scorePercentage
+    );
 
     // Get the top 5 documents
     const topDocuments = matchedDocuments.slice(0, 5);
@@ -91,6 +97,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       status: 200,
       topDocuments: topDocuments,
+      alreadyMatchedDocuments: alreadyMatchedDocuments,
     });
   } catch (error) {
     console.error("Error logging in:", error);
