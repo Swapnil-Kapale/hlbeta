@@ -17,7 +17,11 @@ export async function POST(request: NextRequest) {
 
     // Get the request body
     const body = await request.json();
-    console.log(body);
+    console.log("************************************",body);
+
+//     candidateId: '65fa8916ac270a78431b9ed3',
+//   jobId: '65fa8c20ac270a78431b9f56' 
+    
 
     // Create a new job opening
     const newJobOpening = new JobProfile({
@@ -44,6 +48,9 @@ export async function POST(request: NextRequest) {
 
     // find recruiterinformation collection and push the new job opening
     const userinformation = await ResumeInformation.findOne(candidateId);
+
+    console.log("userInformation:", userinformation);
+    
 
     userinformation.jobOpenings.push(jobId);
 
