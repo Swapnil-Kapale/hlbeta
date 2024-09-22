@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/shownotifications"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/shownotifications", "app/api/s3-upload/route.js", "app/api/s3-upload/route.js"],
   "exclude": ["node_modules"]
 }

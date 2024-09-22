@@ -260,11 +260,20 @@ const Register = () => {
       ) {
         // Handle success, e.g., show a success message
         console.log(response.data.message);
+        // upload on s3 bucket
+        const formData = new FormData();
+        formData.append("file", resumefile as Blob);
+        const resp = await fetch("http://localhost:3000/api/s3-upload/", {
+          method: "POST",
+          body: formData,
+        });
+        console.log(resp);
         router.push("/register/success");
       } else {
         // Handle error, e.g., show an error message
         console.error("Registration failed");
       }
+
     } catch (error) {
       console.error(error);
     }
