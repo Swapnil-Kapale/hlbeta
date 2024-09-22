@@ -39,7 +39,7 @@ const Job = () => {
     e.preventDefault();
     console.log(addJobOpening);
 
-    const response = await axios.post('http://localhost:3000/api/addopening/', addJobOpening);
+    const response = await axios.post('/api/addopening/', addJobOpening);
     console.log(response);
     if (response.data.status === 201) {
       console.log("Job Opening added successfully");

@@ -65,7 +65,7 @@ The project addresses the inefficiencies of traditional hiring processes by leve
    ```bash
    npm run dev
    
-The website will be accessible at http://localhost:3000.
+The website will be accessible at .
 
 ## Website Preview
 

@@ -73,7 +73,7 @@ const RecruiterRegisterPage = () => {
     
     console.log(recruiterInformation);
 
-    fetch('http://localhost:3000/api/register', {
+    fetch('/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

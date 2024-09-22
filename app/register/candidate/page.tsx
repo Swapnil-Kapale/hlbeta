@@ -226,7 +226,7 @@ const Register = () => {
     const formData = new FormData();
     formData.append("file", resumefile as Blob);
 
-    await fetch("http://localhost:3000/api/extract/", {
+    await fetch("/api/extract/", {
       method: "POST",
       body: formData,
     })
@@ -263,7 +263,7 @@ const Register = () => {
         // upload on s3 bucket
         const formData = new FormData();
         formData.append("file", resumefile as Blob);
-        const resp = await fetch("http://localhost:3000/api/s3-upload/", {
+        const resp = await fetch("/api/s3-upload/", {
           method: "POST",
           body: formData,
         });
